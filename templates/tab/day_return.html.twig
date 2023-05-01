@@ -1,0 +1,24 @@
+{% if player.injuryStatus == 'OK' %}
+
+    <td class="align-middle">Aucun</td>
+
+{% elseif player.getDayReturn() is null %}
+
+    <td class="align-middle">?</td>
+
+{% elseif player.getDayReturn() == 0 %}
+
+    <td class="align-middle">Fin de saison</td>
+
+    {% else %}
+    <td class="text-danger">J{{ player.getDayReturn() }}
+
+        {% if player.isDateOfReturnIsExact() == true %}
+
+            ?
+
+        {% endif %}
+
+    </td>
+
+{% endif %}

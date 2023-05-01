@@ -1,0 +1,54 @@
+{% extends asset('base.html.twig') %}
+
+
+
+{% block main_content %}
+
+                {% block flash %}
+                {% endblock %}
+
+                <h1 class="h2 text-center pb-2">{{ team.getClubNameToUpperCase() }}</h1>
+
+                {% block team_custom %}
+                {% endblock %}
+                <table class="table table-striped pt-3 rounded">
+                    <thead class="rounded-top">
+                    <tr>
+                        <th scope="col"></th>
+                        <th scope="col">Nom</th>
+                        <th scope="col">Statut</th>
+                        <th scope="col">Retour prévue</th>
+                        <th scope="col">Informations supplémentaires</th>
+                    </tr>
+                    </thead>
+
+                    <tbody class="rounded-bottom">
+                    {% for player in players %}
+                        <tr>
+                            <th scope="row" class="align-middle"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
+                                    <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3Zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/>
+
+                                </svg></th>
+
+                            {% include 'tab/player_name.html.twig' %}
+
+                            {% include 'tab/injury_status.html.twig' %}
+
+                            {% include 'tab/day_return.html.twig' %}
+
+                            {% include 'tab/info.html.twig' %}
+
+
+
+
+                            {% block buttons %}
+                            {% endblock %}
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+
+    {% endblock %}
+
+
+

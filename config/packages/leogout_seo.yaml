@@ -1,0 +1,22 @@
+leogout_seo:
+    # By default, the SEO generators services are not loaded if you don't configure them. The following default configuration
+    # loads the services but they won't render anything.
+    # See https://github.com/leogout/SeoBundle#configuration-reference to configure them.
+    # See https://github.com/leogout/SeoBundle#setting-values-dynamically to use them directly in your controller.
+    general:
+        title: FootballKO
+        description: Tous les joueurs absents et blessés en France, Angleterre, Espagne et Italie recensés en temps réel.
+        image: http://images.com/poneys/12/large # This one is shared by open graph and twitter only
+    basic:
+        title: FootballKO
+        keywords: blessures, absences, football, championnat européen, France, Italie, Espagne, Angleterre, conférence de presse, groupe clubs
+    og:
+        title: FootballKO
+        description: Tous les joueurs absents et blessés en France, Angleterre, Espagne et Italie recensés en temps réel.
+        type: article # article, book, profile
+        url: https://footballko.com/homepage
+    twitter:
+        title: FootballKO
+        description: Tous les joueurs absents et blessés en France, Angleterre, Espagne et Italie recensés en temps réel.
+        card: summary # summary_large_image
+        site: footballKO # optionnal

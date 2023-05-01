@@ -1,0 +1,15 @@
+{% set date_now = date() %}
+
+<div class="d-flex flex-column">
+    <div class="h4">Statut article J{{ championship.currentDay }}</div>
+    {% if injuryArticle is null %}
+        <div>Article non créé.<a href="{{ path('app_injury_article_create', {'slug':championship.slug}) }}"> <i class="bi bi-plus-circle"></i></a></div>
+    {% else %}
+        {% if injuryArticle.publishedAt > date_now %}
+            <p>L'article sera publié le {{ injuryArticle.publishedAt|date('d/m') }} à {{ injuryArticle.publishedAt|date('H:i') }}</p>
+        {% else %}
+            <p>L'article a été publié le {{ injuryArticle.publishedAt|date('d/m') }} à {{ injuryArticle.publishedAt|date('H:i') }}</p>
+        {% endif %}
+    {% endif %}
+</div>
+

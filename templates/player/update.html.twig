@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+
+{% block stylesheets %}
+            {{ encore_entry_link_tags('app') }}
+{% endblock %}
+
+
+{% block main_content %}
+    {{ form_start(form) }}
+
+
+
+    <h1 class="h3 pb-3 text-center">{{ player.club }}</h1>
+    <h3 class="h1 pb-5 text-center">{{ player.getFullName() }}</h3>
+
+    <div class="row justify-content-center">
+
+        <div class="col-md-6">
+
+            <div class="form-group">
+                {{ form_label(form.injury_status, 'Statut de la blessure') }}
+                {{ form_widget(form.injury_status, {'attr': {'class': 'form-control'}}) }}
+            </div>
+
+            <div class="form-group">
+                {{ form_label(form.day_return, 'Date de retour (choisir une journée)') }}
+                {{ form_widget(form.day_return, {'attr': {'class': 'form-control'}}) }}
+            </div>
+
+            <div class="form-group">
+                {{ form_label(form.date_of_return_is_exact, 'Date de retour approximative') }}
+                {{ form_widget(form.date_of_return_is_exact, {'attr': {'class': 'form-control'}}) }}
+            </div>
+
+            <div class="form-group">
+                {{ form_label(form.info, 'Info additionnel (choisir un article)') }}
+                {{ form_widget(form.info, {'attr': {'class': 'form-control'}}) }}
+            </div>
+
+            <div class="form-group">
+                {{ form_label(form.injury_type, 'Type de blessure') }}
+                {{ form_widget(form.injury_type, {'attr': {'class': 'form-control'}}) }}
+            </div>
+
+            <div class="form-group d-flex justify-content-center">
+                {{ form_widget(form.submit, {'attr': {'class': 'btn btn-light'}}) }}
+            </div>
+
+        </div>
+    </div>
+
+    {{ form_end(form) }}
+
+
+    {% endblock %}
+

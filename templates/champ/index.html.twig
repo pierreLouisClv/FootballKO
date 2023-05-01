@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{champ.getChampName()|upper}}{% endblock %}
+
+{% block main_content %}
+
+    <div class="container">
+        {% block banner %}
+
+            {% include 'champ/' ~ champ.slug ~ '.html.twig' %}
+
+        {% endblock %}
+        <div class="row">
+
+            <div class="col-sm pb-4">
+                <h1 class="h4 text-center" style="width:100%; font-weight: 900; color:#7D9BC0">
+                    ARTICLES
+                </h1>
+
+                {% include 'article/last_articles.html.twig' %}
+            </div>
+            <div class="col-sm">
+
+                <h1 class="h4 text-center" style="width:100%; font-weight: 900; color:#7D9BC0">
+                    TABLEAU DES ABSENTS
+                </h1>
+
+                <div class="mb-2">
+                    <a href="{{ path('app_injury_article_show', {'slug':champ.slug, 'day':champ.currentDay}) }}">
+                        <i class="bi bi-arrow-right-circle-fill"></i> Consulter le tableau
+                    </a>
+                </div>
+
+                {% include 'champ/status.html.twig'%}
+            </div>
+        </div>
+
+    </div>
+
+
+{% endblock %}

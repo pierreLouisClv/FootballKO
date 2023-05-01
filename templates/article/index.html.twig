@@ -1,0 +1,84 @@
+{% extends 'base.html.twig' %}
+
+
+{% block title %}Article index{% endblock %}
+
+{% block seo %}{{ leogout_seo('basic') }}{% endblock %}
+
+        {% block stylesheets %}
+            {{ encore_entry_link_tags('app') }}
+            <style>
+                .container {
+                    display: flex;
+                    flex-wrap: wrap;
+                    justify-content: space-between;
+                }
+                .article {
+                    width: 30%;
+                    margin-bottom: 20px;
+                }
+                @media (max-width: 768px) {
+                    .article {
+                        width: 45%;
+                    }
+                    .article img {
+                        width: 100%;
+                        margin-right: 0;
+                    }
+                }
+                @media (max-width: 576px) {
+                    .article {
+                        width: 100%;
+                    }
+
+                }
+
+                .article img {
+                    width: 100%;
+                    margin-right: 10px;
+                }
+                .article .details {
+                    flex-grow: 1;
+                }
+                .article .category {
+                    font-size: 12px;
+                    font-weight: bold;
+                    text-transform: uppercase;
+                }
+                .article .date {
+                    font-size: 12px;
+                }
+                .article .title {
+                    font-family: Arial, sans-serif;
+                    font-size: 20px;
+                    font-weight: bold;
+                }
+                .article .intro {
+                    font-size: 16px;
+                    line-height: 1.4;
+                }
+            </style>
+        {% endblock %}
+
+{% block main_content %}
+    <div class="container pt-4">
+
+        {% for article in articles %}
+            {% if article.introduction is null %}
+            {% endif %}
+
+
+                <div class="article border" style="">
+                    <img class="border" style=""
+                            src="/uploads/{{ article.media.filename }}" alt="{{ article.media.altText }}" />
+                    <div class="details border d-flex">
+                        <div class="category border pb-0 mr-2">{{ article.category }}</div>
+                        <i class="date border">{{ article.getDateInterval() }}</i>
+                    </div>
+                        <h1 class="title border">{{ article.title }}</h1>
+                </div>
+
+
+        {% endfor %}
+    </div>
+{% endblock %}

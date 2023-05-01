@@ -1,0 +1,101 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.4/font/bootstrap-icons.css">
+        <link href="public/css/style.css" rel="stylesheet">
+
+    <style>
+        .injuryArticles{
+            width:90%;
+            padding-left: 2%;
+            padding-right: 2%
+        }
+        .article {
+            width: 40%;
+            margin-bottom: 20px;
+        }
+        @media (max-width: 768px) {
+        .article {
+                width: 45%;
+            }
+        .article img {
+                width: 100%;
+                margin-right: 0;
+            }
+        }
+
+        .article img {
+            width: 100%;
+            margin-right: 10px;
+        }
+        .article .details {
+            flex-grow: 1;
+        }
+        .article .category {
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        .article .date {
+            font-size: 12px;
+        }
+        .article .title {
+            font-family: Arial, sans-serif;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+
+    </style>
+        {{ encore_entry_link_tags('app') }}
+{% endblock %}
+
+{% block main_content %}
+<div class="container injuryArticles pt-4">
+    <div class="row">
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+        {% endfor %}
+        {% for message in app.flashes('danger') %}
+            <div class="alert alert-danger">
+                {{ message }}
+            </div>
+        {% endfor %}
+    </div>
+
+    <div class="row">
+        <div class="mb-4" style="width: 100%;">
+            <div class="text-center mb-2" style="font-weight: 500; font-size:22px">
+                Bienvenue sur <div style="display:inline; color:#7D9BC0; font-family: fantasy;">FootballKO</div>, le site qui recense les joueurs absents dans quatre grands championnats d'Europe.
+            </div>
+            <div class="text-center mb-2" style="font-weight: 400; font-size:16px">
+                Avant chaque journée, vous trouverez les tableaux d'absents mis à jour avec les dernières informations des conférences de presse, annonces de groupe etc...
+            </div>
+            <div class="text-center mb-2" style="font-weight: 500; font-size:22px">
+                Bonne navigation <i class="bi bi-search"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <div>
+            <h1 class="h3 text-center" style="font-weight: 900; color:#7D9BC0">TABLEAUX DES ABSENTS</h1>
+        </div>
+    </div>
+
+    {% include 'injury_article/home_block.html.twig' %}
+
+
+</div>
+{% endblock %}
+
+{% block secondary_content %}
+
+    <h1 class="h4 text-center" style="width:100%; font-weight: 900; color:#7D9BC0">
+        DERNIERS ARTICLES
+    </h1>
+
+    {% include 'article/last_articles.html.twig' %}
+{% endblock %}

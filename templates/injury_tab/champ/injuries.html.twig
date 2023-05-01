@@ -1,0 +1,9 @@
+<div class="container">
+
+    {% for injuryTab in injuryTabs %}
+
+        <h1 class="pt-3 h5">{{ injuryTab.club.getClubNameToUpperCase() }}</h1>
+            {% include asset('injury_tab/team_status/' ~ injuryTab.status ~ '.html.twig') %}
+    {% endfor %}
+
+</div>

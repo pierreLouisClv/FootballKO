@@ -1,0 +1,17 @@
+{% extends('article/show.html.twig') %}
+
+{% block date_info %}
+
+    <div class="text-secondary mb-2">Dernière MAJ le {{ article.updatedAtToString() }}</div>
+
+{% endblock %}
+
+{% block tab %}
+    {% include('injury_tab/champ/injuries.html.twig') %}
+{% endblock %}
+
+{% block secondary_content %}
+
+{% include 'champ/status.html.twig' %}
+
+{% endblock %}

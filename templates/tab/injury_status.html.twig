@@ -1,0 +1,17 @@
+{% if player.injuryStatus == 'OK' %}
+
+    <td class="text-success align-middle">Disponible</td>
+
+{% elseif player.injuryStatus == 'incertain' %}
+
+    <td class="text-warning align-middle">Incertain</td>
+
+{% elseif player.injuryStatus == 'injured' %}
+
+    <td class="text-danger align-middle">Blessé</td>
+
+{% elseif player.injuryStatus == 'out_of_group' %}
+
+    <td class="text-danger align-middle">Hors-Groupe</td>
+
+{% endif %}

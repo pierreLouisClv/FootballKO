@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block seo %}
+    {{ leogout_seo('basic') }}
+    {{ leogout_seo('twitter') }}
+    {{ leogout_seo('og') }}
+{% endblock %}
+
+{% block main_content %}
+
+    <div class="container" style="width:95%">
+        <div class="row">
+            <div class="card mb-2" style="background-color: #091C3E">
+                <div class="card-body pt-0 pb-0 pr-2 pl-2 font-italic" style="color : white;font-family: fantasy; font-size: 15px">
+                    {{ article.category }}
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="d-flex flex-column">
+                <div class="pb-2" style="font-family: 'Anton', sans-serif; font-weight: 800; letter-spacing: -3px; font-size:40px;line-height: 1em;">{{ article.title }}</div>
+
+                {% block date_info %}
+                    <div class="text-secondary mb-2">Publié le {{ article.publishedAtToString() }}</div>
+                {% endblock %}
+                <img class="mb-3" style="max-width:90%"
+                     src="/uploads/{{ article.media.filename }}" alt="{{ article.media.altText }}" />
+                <div style="font-family: Rubik, sans-serif">
+                    {{ article.content|raw }}</div>
+            </div>
+
+            </div>
+
+
+
+
+    {% block tab %}{% endblock %}
+    </div>
+{% endblock %}
+
+{% block secondary_content %}
+    <h1 class="h4 text-center" style="font-weight: 900; color:#7D9BC0">
+        DERNIERS ARTICLES
+    </h1>
+
+    {% include 'article/last_articles.html.twig' %}
+{% endblock %}

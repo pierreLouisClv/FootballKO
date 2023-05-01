@@ -1,0 +1,15 @@
+{% if player.info is null %}
+    <td>
+
+    </td>
+{% else %}
+    <td class="align-middle">
+        <div class="d-flex">
+            <a href="{{ path('app_article_show', {'slug':player.info.slug}) }}" class="font-italic">
+                      <div>
+                {{ player.info.title }}
+                      </div>
+            </a>
+        </div>
+    </td>
+{% endif %}

@@ -1,0 +1,18 @@
+{% extends '../../base.html.twig' %}
+
+{% block main_content %}
+    <h1 class="text-center h2">{{ injuryTab.club }} / J{{ injuryTab.currentDay }}</h1>
+
+    {% include asset('injury_tab/team/injuries.html.twig') %}
+
+
+{% endblock %}
+
+
+{% block secondary_content %}
+
+    <div class="border border-success">
+        <h1 class="text-center h3"> Test </h1>
+    </div>
+
+{% endblock %}

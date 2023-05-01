@@ -1,0 +1,60 @@
+{% extends('base.html.twig') %}
+
+{% block main_content %}
+{{ form_start(form) }}
+
+    {% block article_head %}{% endblock %}
+
+    {% block article_body %}
+
+        <div class="row justify-content-center">
+
+            <div class="col-md-12">
+
+        <div class="form-group">
+            {{ form_label(form.title, 'Titre') }}
+            {{ form_widget(form.title, {'attr': {'class': 'form-control'}}) }}
+        </div>
+
+        {% block category %}
+        {% endblock %}
+
+        {% block club %}
+        {% endblock %}
+
+        <div class="form-group">
+            {{ form_label(form.content, 'Contenu') }}
+            {{ form_widget(form.content, {'attr': {'class': 'form-control'}}) }}
+        </div>
+
+        <!-- <div class="form-group">
+                {# {{ form_label(form.introduction, 'Intro') }}
+                {{ form_widget(form.introduction, {'attr': {'class': 'form-control'}}) }} #}
+            </div> -->
+
+        <div class="form-group">
+            {{ form_label(form.published_at, 'Date de publication') }}
+            {{ form_widget(form.published_at, {'attr': {'class': 'form-control'}}) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_label(form.media, 'Image') }}
+            {{ form_widget(form.media, {'attr': {'class': 'form-select'}}) }}
+        </div>
+
+        <div class="form-group d-flex justify-content-center">
+            {{ form_label(form.submit, 'Créer') }}
+            {{ form_widget(form.submit, {'attr': {'class': 'btn btn-light'}}) }}
+        </div>
+
+    </div>
+</div>
+
+
+        {% endblock %}
+
+{% endblock %}
+
+{% block secondary_content %}
+    {{ form_end(form) }}
+{% endblock %}

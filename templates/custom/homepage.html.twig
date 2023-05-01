@@ -1,0 +1,84 @@
+{% extends('base.html.twig') %}
+
+{% block main_content %}
+
+<div class="container">
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
+    {% for message in app.flashes('danger') %}
+        <div class="alert alert-danger">
+            {{ message }}
+        </div>
+    {% endfor %}
+    <div class="row">
+
+    {% for champ in champs %}
+        <div class="col-md-6 mb-3">
+
+            <h1 class="h2 mb-2">{{ champ.getChampName()|upper }} </h1>
+              <h1 class="text-italic"> J{{ champ.currentDay }}</h1>
+
+            <a class="mb-2" href="{{ path('app_next_day', {'slug' : champ.slug}) }}">
+
+                <div class="mb-2" style="display: flex; align-items: center;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right-square-fill" viewBox="0 0 16 16">
+                        <path d="M0 14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2a2 2 0 0 0-2 2v12zm4.5-6.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5a.5.5 0 0 1 0-1z"/>
+                    </svg>
+                    <span style="margin-left: 5px;">Passer à la journée suivante</span>
+                </div>
+
+            </a>
+
+            <div class="mb-2">
+                <a href="{{ path('app_article_new', {'slug' : champ.slug}) }}" class="d-flex">
+                    <i class="bi bi-plus-square-fill"></i> Ajouter un article
+                </a>
+            </div>
+
+            <div class="mb-2">
+            <a href="{{ path('app_injury_tab_modify', {'slug' : champ.slug}) }}">
+                Modifier le tableau du championnat
+            </a>
+            </div>
+
+            <table>
+
+                {% for club in champ.getClubsSortedByName() %}
+                <tr>
+                    <td>
+                    <div>
+
+                        <h1 class="h5 mb-2">{{ club.clubName }}</h1>
+
+                    </div>
+                    </td>
+                    <td>
+                        <a href="{{ path('app_team_modify', {'slug' : club.slug}) }}">Fiche équipe</a>
+                    </td>
+
+                    <td>
+                        <a></a>
+                    </td>
+                </tr>
+                {% endfor %}
+
+            </table>
+
+        </div>
+
+
+    {% endfor %}
+
+    </div>
+
+</div>
+
+{% endblock %}
+
+{% block secondary_content %}
+
+
+{% endblock %}

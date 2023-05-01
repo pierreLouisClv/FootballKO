@@ -1,0 +1,68 @@
+{% block status %}
+{% if injuryTab.status == "group_ok" %}
+{% set color = 'success' %}
+{% elseif injuryTab.status == "conf_ok" %}
+{% set color = 'warning' %}
+{% else %}
+{% set color = 'secondary' %}
+{% endif %}
+<h2 class="text-{{ color }}"> Dernière MAJ : {{ injuryTab.getUpdatedAtToString() }}</h2>
+
+<table class="table table-striped pt-3 border border-{{ color }}">
+
+        <thead class="rounded-top">
+
+{% if injuryTab.status=="not_updated" %}
+<tr class="">
+{% else %}
+        <tr class="bg-{{ color }}">
+    {% endif %}
+    {% endblock %}
+        <th scope="col"></th>
+        <th scope="col" class="align-middle ">Nom</th>
+        <th scope="col" class="align-middle">Statut</th>
+        <th scope="col" class="align-middle">Retour envisagé</th>
+        <th scope="col" class="align-middle">Info associée</th>
+    {#
+        <th scope="col" class="align-middle">Etat d'avancement</th>
+    #}
+    </tr>
+
+    </thead>
+
+    <tbody class="rounded-bottom">
+    {% for player in injuryTab.absent %}
+    <tr>
+        <th scope="row" class="align-middle"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
+                <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3Zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/>
+            </svg></th>
+        {% include 'tab/player_name.html.twig' %}
+
+        {% include 'tab/injury_status.html.twig' %}
+
+        {% include 'tab/day_return.html.twig' %}
+
+        {% include 'tab/info.html.twig' %}
+{#         {% if player.progress is null %}
+            <td class="align-middle">?</td>
+        {% else %}
+            <td class="align-middle">{{ player.progress }}</td>
+        {% endif %}
+
+#}
+        {% if modify==true %}
+        <td class="align-middle"><a href="{{ path('app_player_update', {'id':player.id}) }}" class="text-info">
+
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-square" viewBox="0 0 16 16">
+                    <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+                    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                </svg>
+            </a></td>
+        {% endif %}
+    </tr>
+
+    {% endfor %}
+    </tbody>
+</table>
+
+

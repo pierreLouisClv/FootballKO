@@ -1,0 +1,27 @@
+
+     <div class="row justify-content-around">
+        {% for article in articles %}
+
+            {% if article is null %}
+
+            {% else %}
+
+            <div class="article" style="">
+                <a href="{{ path('app_injury_article_show', {'day':article.day, 'slug':article.championship.slug}) }}">
+                <img class="" style=""
+                     src="/uploads/{{ article.media.filename }}" alt="{{ article.media.altText }}" />
+                <div class="details pb-0 mb-0 d-flex">
+                    <div class="category mr-2">{{ article.category }}</div>
+                    <div class="category mr-2">{{ article.championship }}</div>
+                </div>
+                    <div class="date mt-0 pt-0">Dernière mise à jour : {{ article.updatedAtToString() }}</div>
+                    <h1 class="h5" style="font-family: 'Anton', sans-serif; letter-spacing: -1px;font-weight:800">{{ article.title }}</h1>
+                </a>
+            </div>
+
+            {% endif %}
+
+        {% endfor %}
+     </div>
+
+

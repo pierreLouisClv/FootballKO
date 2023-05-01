@@ -1,0 +1,41 @@
+<div class="d-flex flex-column">
+    {% if group_ok_clubs is empty %}
+    {% else %}
+        <div class="text-success font-weight-bold mb-1">Groupes annoncés</div>
+
+        {% for club in group_ok_clubs %}
+            <div class="mb-1">{{ club.clubName }} (maj : {{ club.getLastInjuryUpdate()|date('d/m H:i') }})</div>
+        {% endfor %}
+
+    {% endif %}
+
+    {% if conf_ok_clubs is empty %}
+
+        <div class="mb-1 font-weight-bold">Dernières maj blessures club</div>
+
+    {% else %}
+
+        <div class="mb-1 text-warning font-weight-bold">Conférences de presse actualisées</div>
+
+        {% for club in conf_ok_clubs %}
+
+            <div class="mb-1">{{ club.clubName }} (maj : {{ club.getLastInjuryUpdate()|date('d/m H:i') }})</div>
+
+        {% endfor %}
+
+        <div class="mb-1 font-weight-bold">Autres maj club</div>
+
+    {% endif %}
+
+    {% if not_updated_clubs is empty %}
+
+    {% else %}
+
+        {% for club in not_updated_clubs %}
+
+            <div class="mb-1">{{ club.clubName }} (maj : {{ club.getLastInjuryUpdate()|date('d/m H:i') }})</div>
+
+        {% endfor %}
+
+    {% endif %}
+</div>

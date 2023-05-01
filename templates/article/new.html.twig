@@ -1,0 +1,34 @@
+{% extends 'article/article_form.html.twig' %}
+
+{% block article_head %}
+<h1 class="h3 pb-3 text-center">Page créateur</h1>
+<h3 class="h1 pb-5 text-center">Nouvel article</h3>
+{% endblock %}
+
+{% block category %}
+<div class="form-group">
+    {{ form_label(form.category, 'Catégorie') }}
+    {{ form_widget(form.category, {'attr': {'class': 'form-select'}}) }}
+</div>
+{% endblock %}
+
+{% block club %}
+<div class="form-group">
+    {{ form_label(form.mentionned_club, 'Club associé') }}
+    {{ form_widget(form.mentionned_club, {'attr': {'class': 'form-select'}}) }}
+</div>
+{% endblock %}
+
+{% block secondary_content %}
+    <div class="form-group">
+        {{ form_label(form.introduction, 'Description') }}
+        {{ form_widget(form.introduction, {'attr': {'class': 'form-control'}}) }}
+    </div>
+
+    <div class="form-group">
+        {{ form_label(form.keywords, 'Mots clés') }}
+        {{ form_widget(form.keywords, {'attr': {'class': 'form-control'}}) }}
+    </div>
+
+    {{ form_end(form) }}
+{% endblock %}
