@@ -59,7 +59,7 @@ class Club
             $this->cityName = $cityName;
         }
         $this->status = "not_updated";
-        $this->lastInjuryUpdate = new \DateTime();
+        $this->lastInjuryUpdate = (new \DateTime())->modify('+2 hours');;
         $this->players = new ArrayCollection();
         $this->injuryTabs = new ArrayCollection();
         $this->articles = new ArrayCollection();

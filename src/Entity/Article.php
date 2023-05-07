@@ -61,7 +61,7 @@ class Article
 
     public function __construct()
     {
-        $this->createdAt = new \DateTimeImmutable();
+        $this->createdAt = (new \DateTimeImmutable())->modify('+2 hours');
         $this->mentionedPlayers = new ArrayCollection();
 
     }
@@ -187,7 +187,7 @@ class Article
     }
 
     public function getDateInterval() :string{
-        $dateInterval = $this->publishedAt->diff(new \DateTime());
+        $dateInterval = $this->publishedAt->diff((new \DateTime())->modify('+2 hours'));
 
         if ($dateInterval->days > 0) {
             return "il y a ".$dateInterval->format('%a jours');
