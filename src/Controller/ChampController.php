@@ -70,6 +70,7 @@ class ChampController extends AbstractController
         $author = $this->userRepository->findOneBy(['email' => $connectedUser->getUserIdentifier()]);
         $article = new Article();
         $article->setAuthor($author);
+        $article->setMentionedChamp($champ);
 
         $form = $this->createForm(ArticleType::class, $article, [
             'attr' => [

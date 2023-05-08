@@ -15,6 +15,7 @@
                         {{ article.category|upper }}
                     </div>
                     {% if article.getMentionnedClub() is null %}
+                        {{ article.getMentionedChamp().getChampName()|upper }}
                     {% else %}
                         <div class="pr-2">
                             {{ article.getMentionnedClub().clubName|upper }}
