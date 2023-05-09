@@ -37,6 +37,9 @@ class Championship
     #[ORM\OneToMany(mappedBy: 'associatedChampionship', targetEntity: Media::class)]
     private Collection $medias;
 
+    #[ORM\OneToMany(mappedBy: 'mentioned_champ', targetEntity: Article::class)]
+    private Collection $commonArticles;
+
     public function __construct($champ_name)
     {
         $this->champ_name = $champ_name;
@@ -44,6 +47,7 @@ class Championship
         $this->clubs = new ArrayCollection();
         $this->articles = new ArrayCollection();
         $this->medias = new ArrayCollection();
+        $this->commonArticles = new ArrayCollection();
     }
 
     /**
@@ -186,6 +190,36 @@ class Championship
             // set the owning side to null (unless already changed)
             if ($media->getAssociatedChampionship() === $this) {
                 $media->setAssociatedChampionship(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Article>
+     */
+    public function getCommonArticles(): Collection
+    {
+        return $this->commonArticles;
+    }
+
+    public function addCommonArticle(Article $commonArticle): self
+    {
+        if (!$this->commonArticles->contains($commonArticle)) {
+            $this->commonArticles->add($commonArticle);
+            $commonArticle->setMentionedChamp($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommonArticle(Article $commonArticle): self
+    {
+        if ($this->commonArticles->removeElement($commonArticle)) {
+            // set the owning side to null (unless already changed)
+            if ($commonArticle->getMentionedChamp() === $this) {
+                $commonArticle->setMentionedChamp(null);
             }
         }
 

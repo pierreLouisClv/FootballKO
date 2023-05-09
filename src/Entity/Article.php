@@ -59,6 +59,9 @@ class Article
     #[ORM\Column(length: 500, nullable: true)]
     private ?string $keywords = null;
 
+    #[ORM\ManyToOne(inversedBy: 'commonArticles')]
+    private ?Championship $mentioned_champ = null;
+
     public function __construct()
     {
         $this->createdAt = (new \DateTimeImmutable())->modify('+2 hours');
@@ -281,6 +284,18 @@ class Article
     public function setKeywords(?string $keywords): self
     {
         $this->keywords = $keywords;
+
+        return $this;
+    }
+
+    public function getMentionedChamp(): ?Championship
+    {
+        return $this->mentioned_champ;
+    }
+
+    public function setMentionedChamp(?Championship $mentioned_champ): self
+    {
+        $this->mentioned_champ = $mentioned_champ;
 
         return $this;
     }
