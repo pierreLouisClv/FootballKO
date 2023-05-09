@@ -2,7 +2,7 @@
 
     <td class="text-success align-middle">Disponible</td>
 
-{% elseif player.injuryStatus == 'incertain' %}
+{% elseif player.injuryStatus == 'uncertain' %}
 
     <td class="text-warning align-middle">Incertain</td>
 
@@ -13,5 +13,13 @@
 {% elseif player.injuryStatus == 'out_of_group' %}
 
     <td class="text-danger align-middle">Hors-Groupe</td>
+
+{% elseif player.injuryStatus == 'suspended' %}
+
+    <td class="text-danger align-middle">Suspendu</td>
+
+{% elseif player.injuryStatus == 'exclude' %}
+
+    <td class="text-danger align-middle">Ecarté</td>
 
 {% endif %}

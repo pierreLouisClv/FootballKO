@@ -33,8 +33,10 @@ class AddPlayerType extends AbstractType
                 'required' => false,
                 'choices' => [
                     'Disponible' => "OK",
-                    'Incertain' => "incertain",
+                    'Incertain' => "uncertain",
                     'Blessé' => "injured",
+                    'Suspendu' => "suspended",
+                    "Ecarté" => 'exclude',
                     "Hors-Groupe" => 'out_of_group'
                 ],
             ])
