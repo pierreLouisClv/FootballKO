@@ -231,7 +231,7 @@ class Club
             }
         }
         foreach ($players as $player) {
-            if ($player->getPosition() == 'ATT') {
+            if ($player->getPosition() == 'A') {
                 $sortedPlayers->add($player);
             }
         }

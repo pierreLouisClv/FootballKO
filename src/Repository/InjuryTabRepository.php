@@ -55,10 +55,10 @@ class InjuryTabRepository extends ServiceEntityRepository
             if($lastInjuryTab != null){
                 return $lastInjuryTab->getAbsent();
             }
-            else{
-
-            }
         }
+
+        return new ArrayCollection();
+
     }
 
     public function getCurrentInjuryTabs(Championship $championship):Collection{
