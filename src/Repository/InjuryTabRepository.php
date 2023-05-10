@@ -56,7 +56,7 @@ class InjuryTabRepository extends ServiceEntityRepository
                 return $lastInjuryTab->getAbsent();
             }
             else{
-                return new ArrayCollection();
+
             }
         }
     }
@@ -87,8 +87,9 @@ class InjuryTabRepository extends ServiceEntityRepository
 
     public function getInjuryTabsFromChamp(Championship $champ, $day):ArrayCollection
     {
+        $clubs = $this->clubRepository->getClubsSortedByCityName($champ);
         $injuryTabs = new ArrayCollection();
-        foreach ($champ->getClubs() as $club) {
+        foreach ($clubs as $club) {
             $injuryTab = $this->findOneBy(['club' => $club, 'day' => $day]);
             if ($injuryTab == null) {
                 $injuryTab = $this->createInjuryTab($day, $club);

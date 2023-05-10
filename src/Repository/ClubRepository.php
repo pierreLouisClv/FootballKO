@@ -53,6 +53,16 @@ class ClubRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function getClubsSortedByCityName(Championship $championship):array
+    {
+        return $this->createQueryBuilder('t')
+            ->andWhere('t.championship = :champ')
+            ->setParameter(':champ', $championship)
+            ->orderBy('t.cityName')
+            ->getQuery()
+            ->getResult();
+    }
+
 
 //    /**
 //     * @return Club[] Returns an array of Club objects
