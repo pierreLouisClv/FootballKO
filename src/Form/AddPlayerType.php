@@ -20,6 +20,7 @@ class AddPlayerType extends AbstractType
             ->add('last_name')
             ->add('position', ChoiceType::class, [
                 'choices' => [
+                    'Non renseigné' => null,
                     'Gardien de but' => 'GDB',
                     'Défenseur central' => 'DC',
                     'Défenseur latéral' => 'DL',
@@ -35,6 +36,7 @@ class AddPlayerType extends AbstractType
                     'Disponible' => "OK",
                     'Incertain' => "uncertain",
                     'Blessé' => "injured",
+                    'Malade' => 'sick',
                     'Suspendu' => "suspended",
                     "Ecarté" => 'exclude',
                     "Hors-Groupe" => 'out_of_group'

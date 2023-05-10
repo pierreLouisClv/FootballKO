@@ -29,7 +29,7 @@ class UpdatePlayerFormHandler{
             $player->setDayReturn(null);
             $player->setDateOfReturnIsExact(null);
         }
-        elseif($player->getInjuryStatus() == "out_of_group" || $player->getInjuryStatus() == "exclude" || $player->getInjuryStatus() == "suspended"){
+        elseif($player->getInjuryStatus() == "out_of_group" || $player->getInjuryStatus() == "exclude" || $player->getInjuryStatus() == "suspended" || $player->getInjuryStatus() == "sick"){
             $player->setInjuryType(null);
         }
             if($player->getDayReturn() == null){
