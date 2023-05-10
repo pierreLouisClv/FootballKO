@@ -9,6 +9,7 @@ use App\Form\InjuryArticleType;
 use App\Repository\ClubRepository;
 use App\Repository\InjuryArticleRepository;
 use App\Repository\InjuryTabRepository;
+use App\Repository\PlayerRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,7 +21,8 @@ class TeamController extends AbstractController
     public function __construct(public ClubRepository $clubRepository,
                                 public InjuryArticleRepository $injuryArticleRepository,
                                 public InjuryTabRepository $injuryTabRepository,
-                                public EntityManagerInterface $em
+                                public EntityManagerInterface $em,
+                                public PlayerRepository $playerRepository
     )
     {
     }
@@ -54,7 +56,7 @@ class TeamController extends AbstractController
     #[Route('/team/{slug}', name: 'app_team_read')]
     public function read(Club $team): Response
     {
-        $players = $team->getPlayersSortedByPosition();
+        $players = $this->playerRepository->getPlayersFromClubSortedByName($team);
         return $this->render('team/read.html.twig', [
             'team' => strtoupper($team->getClubName()),
             'players' => $players,
@@ -70,7 +72,7 @@ class TeamController extends AbstractController
             return $this->redirectToRoute('app_homepage');
         }
 
-        $players = $team->getPlayersSortedByPosition();
+        $players = $this->playerRepository->getPlayersFromClubSortedByName($team);
         $champ = $team->getChampionship();
         $day = $champ->getCurrentDay();
         $injuryArticle = $this->injuryArticleRepository->findOneBy(['championship' => $champ, 'day'=>$day]);

@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Club;
 use App\Entity\Player;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -37,6 +38,16 @@ class PlayerRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    public function getPlayersFromClubSortedByName(Club $team):array
+    {
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.club = :club')
+            ->setParameter(':club', $team)
+            ->orderBy('p.last_name')
+            ->getQuery()
+            ->getResult();
     }
 
 //    /**
