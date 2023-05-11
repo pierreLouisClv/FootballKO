@@ -12,7 +12,11 @@
                         {{ article.getDDMM() }}
                     </div>
                     <div class="pr-2">
-                        {{ article.category|upper }}
+                        {% if article.category.shortName is null %}
+                            {{ article.category|upper }}
+                        {% else %}
+                            {{ article.category.shortName|upper }}
+                        {% endif %}
                     </div>
                     {% if article.getMentionnedClub() is null %}
                         {{ article.getMentionedChamp().getChampName()|upper }}
