@@ -92,7 +92,7 @@ class PlayerController extends AbstractController
 
         $form = $this->createForm(UpdatePlayerType::class, $player, [
             'attr' => [
-            'valMin' => $champ->getCurrentDay() + 1,
+            'valMin' => $champ->getCurrentDay(),
             'valMax' => 38,
             'club' => $club,
                 'create' => false
