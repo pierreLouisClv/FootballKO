@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Club;
+use App\Entity\InjuryTab;
 use App\Entity\Player;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;

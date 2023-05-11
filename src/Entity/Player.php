@@ -260,4 +260,11 @@ class Player
 
         return $this;
     }
+
+    public function __toString(): string
+    {
+        $lastName = $this->last_name;
+        $firstName = $this->first_name;
+        return $lastName == null ? $firstName : $lastName;
+    }
 }

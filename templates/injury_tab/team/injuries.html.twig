@@ -31,7 +31,7 @@
     </thead>
 
     <tbody class="rounded-bottom">
-    {% for player in injuryTab.absent %}
+    {% for player in injuryTab.getPlayersSortedByName() %}
     <tr>
         <th scope="row" class="align-middle d-none d-md-table-cell">
             <i class="bi bi-person-fill"></i>

@@ -154,4 +154,11 @@ class InjuryTab
         return $updatedAt->format('d/m/y H:i');
     }
 
+    public function getPlayersSortedByName():array
+    {
+        $players = $this->getAbsent()->toArray();
+        natsort($players);
+        return $players;
+    }
+
 }
