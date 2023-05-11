@@ -57,6 +57,7 @@ class PlayerController extends AbstractController
                 'valMin' => $player->getClub()->getChampionship()->getCurrentDay(),
                 'valMax' => 38,
                 'club' => $team,
+                'championship' => $team->getChampionship(),
                 'create' => true
             ]
         ]);
@@ -95,6 +96,7 @@ class PlayerController extends AbstractController
             'valMin' => $champ->getCurrentDay(),
             'valMax' => 38,
             'club' => $club,
+                'championship' => $champ,
                 'create' => false
             ]
         ]);
