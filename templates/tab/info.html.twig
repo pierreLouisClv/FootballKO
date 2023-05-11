@@ -7,7 +7,7 @@
         <div class="d-flex">
             <a href="{{ path('app_article_show', {'slug':player.info.slug}) }}" class="font-italic">
                       <div>
-                Voir article ({{ article.publishedAt|date('d/m/y') }})
+                Voir article ({{ player.info.publishedAt|date('d/m/y') }})
                       </div>
             </a>
         </div>
