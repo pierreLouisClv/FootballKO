@@ -32,7 +32,7 @@ class InjuryTabHandler{
             $this->em->flush();
         }
 
-        $injuryTab -> setUpdateAt(new \DateTime());
+        $injuryTab -> setUpdateAt((new \DateTime())->modify('+2 hours'));
         $this->em->flush();
 
     }

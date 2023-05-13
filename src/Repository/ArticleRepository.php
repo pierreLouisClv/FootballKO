@@ -44,7 +44,7 @@ class ArticleRepository extends ServiceEntityRepository
 
     public function getLastArticles(int $limit = 15, Championship $champ = null): array
     {
-        $date = new \DateTime();
+        $date = (new \DateTime())->modify('+2 hours');
         $qb = $this->createQueryBuilder('a');
         if($champ != null){
             $clubs = $champ->getClubs();
@@ -62,7 +62,7 @@ class ArticleRepository extends ServiceEntityRepository
 
     public function getSurgeryArticles(int $limit = 15): array
     {
-        $date = new \DateTime();
+        $date = (new \DateTime())->modify('+2 hours');
         $qb = $this->createQueryBuilder('a');
         $categories = $this->categoryRepository->getSurgeryCategories();
         return $qb

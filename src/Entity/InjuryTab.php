@@ -42,8 +42,8 @@ class InjuryTab
     {
         $this->club = $club;
         $this->day = $day;
-        $this->createdAt = new \DateTimeImmutable();
-        $this->updateAt = new \DateTime();
+        $this->createdAt = (new \DateTimeImmutable())->modify('+2 hours');
+        $this->updateAt = (new \DateTimeImmutable())->modify('+2 hours');
         $this->status = "not_updated";
         $this->absent = new ArrayCollection();
     }
@@ -152,6 +152,13 @@ class InjuryTab
     public function getUpdatedAtToString():string{
         $updatedAt = $this->updateAt;
         return $updatedAt->format('d/m/y H:i');
+    }
+
+    public function getPlayersSortedByName():array
+    {
+        $players = $this->getAbsent()->toArray();
+        natsort($players);
+        return $players;
     }
 
 }

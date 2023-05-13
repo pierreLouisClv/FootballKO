@@ -36,7 +36,7 @@ class InjuryArticleHandler{
     public function updateArticle(Championship $champ):void{
         $currentDay = $champ -> getCurrentDay();
         if($injuryArticle = $this->injuryArticleRepository->findOneBy(["day" => $currentDay, "championship" => $champ])){
-            $injuryArticle -> setUpdatedAt(new \DateTime());
+            $injuryArticle -> setUpdatedAt((new \DateTime())->modify('+2 hours'));
             $this->em->flush();
         }
     }

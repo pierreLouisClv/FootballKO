@@ -54,9 +54,10 @@ class PlayerController extends AbstractController
 
         $form = $this->createForm(UpdatePlayerType::class, $player, [
             'attr' => [
-                'valMin' => $player->getClub()->getChampionship()->getCurrentDay() + 1,
+                'valMin' => $player->getClub()->getChampionship()->getCurrentDay(),
                 'valMax' => 38,
                 'club' => $team,
+                'championship' => $team->getChampionship(),
                 'create' => true
             ]
         ]);
@@ -92,9 +93,10 @@ class PlayerController extends AbstractController
 
         $form = $this->createForm(UpdatePlayerType::class, $player, [
             'attr' => [
-            'valMin' => $champ->getCurrentDay() + 1,
+            'valMin' => $champ->getCurrentDay(),
             'valMax' => 38,
             'club' => $club,
+                'championship' => $champ,
                 'create' => false
             ]
         ]);

@@ -25,18 +25,17 @@ class UpdatePlayerFormHandler{
             $player->setDayReturn(null);
             $player->setInjuryType(null);
         }
-        elseif($player->getInjuryStatus() == "incertain"){
+        elseif($player->getInjuryStatus() == "uncertain"){
             $player->setDayReturn(null);
             $player->setDateOfReturnIsExact(null);
         }
-        elseif($player->getInjuryStatus() == "out_of_group"){
+        elseif($player->getInjuryStatus() == "out_of_group" || $player->getInjuryStatus() == "exclude" || $player->getInjuryStatus() == "suspended" || $player->getInjuryStatus() == "sick"){
             $player->setInjuryType(null);
         }
-        else{
             if($player->getDayReturn() == null){
                 $player->setDateOfReturnIsExact(null);
             }
-        }
+
 
         $this->em->flush();
     }

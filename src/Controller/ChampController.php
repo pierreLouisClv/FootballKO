@@ -14,6 +14,7 @@ use App\Repository\ChampionshipRepository;
 use App\Repository\ClubRepository;
 use App\Repository\InjuryArticleRepository;
 use App\Repository\InjuryTabRepository;
+use App\Repository\PlayerRepository;
 use App\Repository\UserRepository;
 use App\SEO\SeoResourcesHandler;
 use Doctrine\ORM\EntityManagerInterface;
@@ -35,7 +36,7 @@ class ChampController extends AbstractController
                                 public SeoResourcesHandler $seoResourcesHandler,
                                 public SeoGeneratorProvider $seoGeneratorProvider,
                                 public ArticleHandler $articleHandler,
-                                public UserRepository $userRepository
+                                public UserRepository $userRepository,
     )
     {
     }
@@ -70,6 +71,7 @@ class ChampController extends AbstractController
         $author = $this->userRepository->findOneBy(['email' => $connectedUser->getUserIdentifier()]);
         $article = new Article();
         $article->setAuthor($author);
+        $article->setMentionedChamp($champ);
 
         $form = $this->createForm(ArticleType::class, $article, [
             'attr' => [
@@ -165,7 +167,7 @@ class ChampController extends AbstractController
             'champ' => $champ,
             'group_ok_clubs' => $groupClubs,
             'conf_ok_clubs' => $confClubs,
-            'not_updated_clubs' => $otherClubs
+            'not_updated_clubs' => $otherClubs,
         ]);
     }
 }

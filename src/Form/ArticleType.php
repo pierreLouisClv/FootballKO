@@ -48,7 +48,8 @@ class ArticleType extends AbstractType
                         ->setParameter(':championship', $championship)
                         ->orderBy('c.clubName', 'ASC');
                 },
-                'placeholder' => '-- Sélectionner un club --'
+                'placeholder' => 'Article Championnat',
+                'required' => false
             ])
             ->add("media", EntityType::class, [
                 'class' => Media::class,

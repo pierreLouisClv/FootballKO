@@ -20,8 +20,14 @@ class HomepageController extends AbstractController
     {
     }
 
+    #[Route('/', name: 'app_index')]
+    public function index():Response
+    {
+        return $this->redirectToRoute('app_homepage');
+    }
+
     #[Route('/homepage', name: 'app_homepage')]
-    public function index(): Response
+    public function homepage(): Response
     {
         $champs = $this->championshipRepository->findChamps();
         $injuryArticles = $this->injuryArticleRepository->getLastInjuryArticles($champs);

@@ -32,6 +32,7 @@ class UpdatePlayerType extends AbstractType
         $valMin = $options['attr']['valMin'];
         $valMax = $options['attr']['valMax'];
         $club = $options['attr']['club'];
+        $champ = $options['attr']['championship'];
 
 
 
@@ -41,6 +42,7 @@ class UpdatePlayerType extends AbstractType
                 ->add('last_name')
                 ->add('position', ChoiceType::class, [
                     'choices' => [
+                        'Non renseigné' => null,
                         'Gardien de but' => 'GDB',
                         'Défenseur central' => 'DC',
                         'Défenseur latéral' => 'DL',
@@ -55,8 +57,11 @@ class UpdatePlayerType extends AbstractType
                 'required' => false,
         'choices' => [
             'Disponible' => "OK",
-            'Incertain' => "incertain",
+            'Incertain' => "uncertain",
             'Blessé' => "injured",
+            'Malade' => "sick",
+            'Suspendu' => "suspended",
+            "Ecarté" => 'exclude',
             "Hors-Groupe" => 'out_of_group'
         ],
     ])
@@ -75,10 +80,13 @@ class UpdatePlayerType extends AbstractType
                 'choice_label' => function (Article $article) {
                     return sprintf('%s - %s', $article->getPublishedAt()->format('d/m/y'), $article->getTitle());
                 },
-                'query_builder' => function (ArticleRepository $articleRepository) use ($club) {
+                'query_builder' => function (ArticleRepository $articleRepository) use ($club, $champ) {
                     return $articleRepository->createQueryBuilder('article')
-                        ->andWhere('article.mentionned_club = :club')
-                        ->setParameter('club', $club)
+                        ->andWhere('article.mentioned_champ = :champ')
+                        ->setParameter(':champ', $champ)
+                        ->andWhere('article.mentionned_club is NULL')
+                        ->orWhere('article.mentionned_club = :club')
+                        ->setParameter(':club', $club)
                         ->orderBy('article.publishedAt', 'DESC');
                 },
                 'placeholder' => '',
