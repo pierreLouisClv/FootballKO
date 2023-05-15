@@ -47,9 +47,8 @@ class ArticleRepository extends ServiceEntityRepository
         $date = (new \DateTime())->modify('+2 hours');
         $qb = $this->createQueryBuilder('a');
         if($champ != null){
-            $clubs = $champ->getClubs();
-            $qb->andWhere('a.mentionned_club IN (:champ)')
-                ->setParameter(':champ', $clubs);
+            $qb->andWhere('a.mentioned_champ = :champ')
+                ->setParameter(':champ', $champ);
         }
         return $qb
             ->andWhere('a.publishedAt <= :now')
