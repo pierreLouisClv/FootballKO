@@ -4,8 +4,10 @@ namespace App\Controller;
 
 use App\Entity\Article;
 use App\Entity\Championship;
+use App\Entity\ExternalArticle;
 use App\Entity\InjuryArticle;
 use App\Form\ArticleType;
+use App\Form\ExternalArticleType;
 use App\Form\InjuryArticleType;
 use App\InjuriesHandler\ArticleHandler;
 use App\InjuriesHandler\InjuryArticleHandler;
@@ -125,7 +127,7 @@ class ChampController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid()){
             if($this->injuryArticleHandler->handleArticle($article)){
-                $this->addFlash('succes', "L'article en ".$champ->getChampName()." de la J".$day." a été créé. Il sera publié le ".$article->getPublishedAt()->format('d/m')." à ".$article->getPublishedAt()->format('h')."h");
+                $this->addFlash('success', "L'article en ".$champ->getChampName()." de la J".$day." a été créé. Il sera publié le ".$article->getPublishedAt()->format('d/m')." à ".$article->getPublishedAt()->format('h')."h");
             }
             else{
                 $this->addFlash('danger', "L'article en ".$champ->getChampName()." de la J".$day." a déjà été créé");
@@ -139,6 +141,37 @@ class ChampController extends AbstractController
         ]);
     }
 
+    #[Route('/ext/article/{slug}/create', name: 'app_external_article_create')]
+    public function createExtArticle(Championship $champ, Request $req):Response
+    {
+        $connectedUser = $this->getUser();
+        if($connectedUser == null || in_array("'ROLE_ADMIN'", $connectedUser->getRoles())){
+            return $this->redirectToRoute('app_homepage');
+        }
+
+        $extArticle = new ExternalArticle($champ);
+
+        $form = $this->createForm(ExternalArticleType::class, $extArticle, [
+            'attr' => [
+                'champ' => $champ
+            ]
+        ]);
+
+        $form->handleRequest($req);
+
+        if($form->isSubmitted() && $form->isValid()){
+            $this->em->persist($extArticle);
+            $this->em->flush();
+            $this->addFlash('success', "Le lien a été ajouté avec succès");
+            return $this->redirectToRoute('app_custom_homepage');
+        }
+
+        return $this->render('external_article/create.html.twig', [
+            'article' => $extArticle,
+            'form' => $form->createView()
+        ]);
+
+    }
     #[Route('/injury/article/{slug}/J{day}', name: 'app_injury_article_show')]
     public function show(Championship $champ, int $day): Response
     {

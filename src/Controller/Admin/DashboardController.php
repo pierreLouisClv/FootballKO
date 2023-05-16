@@ -6,6 +6,7 @@ use App\Entity\Article;
 use App\Entity\Category;
 use App\Entity\Championship;
 use App\Entity\Club;
+use App\Entity\ExternalArticle;
 use App\Entity\InjuryArticle;
 use App\Entity\Media;
 use App\Entity\Player;
@@ -49,6 +50,8 @@ class DashboardController extends AbstractDashboardController
 
         yield MenuItem::linkToCrud('Articles tableau', 'fa fa-sport', InjuryArticle::class);
 
+        yield MenuItem::linkToCrud('Liens articles externes', 'fa fa-sport', ExternalArticle::class);
+
         yield MenuItem::linkToCrud('Images', 'fa fa-sport', Media::class);
 
         yield MenuItem::linkToCrud('Catégories', 'fa fa-sport', Category::class);
@@ -58,6 +61,7 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Joueurs', 'fa fa-sport', Player::class);
 
         yield MenuItem::linkToCrud('Championnats', 'fa fa-sport', Championship::class);
+
 
 
     }

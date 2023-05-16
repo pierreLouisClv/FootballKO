@@ -40,6 +40,9 @@ class Championship
     #[ORM\OneToMany(mappedBy: 'mentioned_champ', targetEntity: Article::class)]
     private Collection $commonArticles;
 
+    #[ORM\OneToMany(mappedBy: 'championship', targetEntity: ExternalArticle::class)]
+    private Collection $externalArticles;
+
     public function __construct($champ_name)
     {
         $this->champ_name = $champ_name;
@@ -48,6 +51,7 @@ class Championship
         $this->articles = new ArrayCollection();
         $this->medias = new ArrayCollection();
         $this->commonArticles = new ArrayCollection();
+        $this->externalArticles = new ArrayCollection();
     }
 
     /**
@@ -220,6 +224,36 @@ class Championship
             // set the owning side to null (unless already changed)
             if ($commonArticle->getMentionedChamp() === $this) {
                 $commonArticle->setMentionedChamp(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ExternalArticle>
+     */
+    public function getExternalArticles(): Collection
+    {
+        return $this->externalArticles;
+    }
+
+    public function addExternalArticle(ExternalArticle $externalArticle): self
+    {
+        if (!$this->externalArticles->contains($externalArticle)) {
+            $this->externalArticles->add($externalArticle);
+            $externalArticle->setChampionship($this);
+        }
+
+        return $this;
+    }
+
+    public function removeExternalArticle(ExternalArticle $externalArticle): self
+    {
+        if ($this->externalArticles->removeElement($externalArticle)) {
+            // set the owning side to null (unless already changed)
+            if ($externalArticle->getChampionship() === $this) {
+                $externalArticle->setChampionship(null);
             }
         }
 

@@ -34,7 +34,13 @@
 
             <div class="mb-2">
                 <a href="{{ path('app_article_new', {'slug' : champ.slug}) }}" class="d-flex">
-                    <i class="bi bi-plus-square-fill"></i> Ajouter un article
+                    <i class="bi bi-plus-square-fill"> </i> Ajouter un article interne
+                </a>
+            </div>
+
+            <div class="mb-2">
+                <a href="{{ path('app_external_article_create', {'slug' : champ.slug}) }}" class="d-flex">
+                    <i class="bi bi-plus-square-fill"> </i> Ajouter un article externe
                 </a>
             </div>
 

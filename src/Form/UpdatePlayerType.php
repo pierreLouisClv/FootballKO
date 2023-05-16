@@ -4,9 +4,11 @@ namespace App\Form;
 
 use App\Entity\Article;
 use App\Entity\Championship;
+use App\Entity\ExternalArticle;
 use App\Entity\Player;
 use App\Repository\ArticleRepository;
 use App\Repository\ChampionshipRepository;
+use App\Repository\ExternalArticleRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -89,13 +91,28 @@ class UpdatePlayerType extends AbstractType
                         ->setParameter(':club', $club)
                         ->orderBy('article.publishedAt', 'DESC');
                 },
-                'placeholder' => '',
+                'placeholder' => 'Pas d\'article interne',
                 'required' => false
             ])
 
-            ->add('injury_type', TextType::class, [
-        'required' => false
-])
+            ->add('external_info', EntityType::class, [
+                'class' => ExternalArticle::class,
+                'choice_label' => function (ExternalArticle $extArticle) {
+                    return sprintf('%s - %s', $extArticle->getPublicationDate()->format('d/m/y'), $extArticle->getName());
+                },
+                'query_builder' => function (ExternalArticleRepository $externalArticleRepository) use ($club, $champ) {
+                    return $externalArticleRepository->createQueryBuilder('article')
+                        ->andWhere('article.championship = :champ')
+                        ->setParameter(':champ', $champ)
+                        ->andWhere('article.club is NULL')
+                        ->orWhere('article.club = :club')
+                        ->setParameter(':club', $club)
+                        ->orderBy('article.publication_date', 'DESC');
+                },
+                'placeholder' => 'Pas d\'article externe',
+                'required' => false
+            ])
+
             ->add('submit',
                 SubmitType::class, [
                     'label' => 'Sauvegarder',

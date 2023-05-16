@@ -50,6 +50,12 @@ class Club
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $lastInjuryUpdate = null;
 
+    #[ORM\OneToMany(mappedBy: 'club', targetEntity: ExternalArticle::class)]
+    private Collection $externalArticles;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $shortName = null;
+
     public function __construct($cityName = null, Championship $champ = null)
     {
         if ($cityName != null) {
@@ -64,6 +70,7 @@ class Club
         $this->injuryTabs = new ArrayCollection();
         $this->articles = new ArrayCollection();
         $this->medias = new ArrayCollection();
+        $this->externalArticles = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -311,6 +318,48 @@ class Club
     public function setLastInjuryUpdate(\DateTimeInterface $lastInjuryUpdate): self
     {
         $this->lastInjuryUpdate = $lastInjuryUpdate;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ExternalArticle>
+     */
+    public function getExternalArticles(): Collection
+    {
+        return $this->externalArticles;
+    }
+
+    public function addExternalArticle(ExternalArticle $externalArticle): self
+    {
+        if (!$this->externalArticles->contains($externalArticle)) {
+            $this->externalArticles->add($externalArticle);
+            $externalArticle->setClub($this);
+        }
+
+        return $this;
+    }
+
+    public function removeExternalArticle(ExternalArticle $externalArticle): self
+    {
+        if ($this->externalArticles->removeElement($externalArticle)) {
+            // set the owning side to null (unless already changed)
+            if ($externalArticle->getClub() === $this) {
+                $externalArticle->setClub(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getShortName(): ?string
+    {
+        return $this->shortName;
+    }
+
+    public function setShortName(?string $shortName): self
+    {
+        $this->shortName = $shortName;
 
         return $this;
     }

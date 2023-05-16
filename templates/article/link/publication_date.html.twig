@@ -1,0 +1,9 @@
+{% if article.publishedAt|date('d/m/y') == date()|date('d/m/y') %}
+
+{{ article.publishedAt|date('h:m') }}
+
+{% else %}
+
+{{ article.publishedAt|date('d/m') }}
+
+{% endif %}
