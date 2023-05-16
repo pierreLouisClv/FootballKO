@@ -1,11 +1,30 @@
 {% if player.info is null %}
-    <td>
+    {% if player.getExternalInfo() is null %}
+        <td>
 
-    </td>
+        </td>
+    {% else %}
+        <td class="align-middle" style="">
+            <div class="d-flex">
+                <a href="{{ player.getExternalInfo().link }}" target="_blank" class="font-italic">
+                    {% if player.getExternalInfo().info is null %}
+                        <div>
+                            Voir article ({{ player.getExternalInfo().getPublicationDate()|date('d/m/y') }})
+                        </div>
+                    {% else %}
+                        <div>
+                            {{ player.getExternalInfo().info }}
+                        </div>
+                    {% endif %}
+                </a>
+            </div>
+        </td>
+    {% endif %}
+
 {% else %}
     <td class="align-middle" style="">
         <div class="d-flex">
-            <a href="{{ path('app_article_show', {'slug':player.info.slug}) }}" class="font-italic">
+            <a href="{{ path('app_article_show', {'slug':player.info.slug}) }}" class="font-italic" target="_blank">
                       <div>
                 Voir article ({{ player.info.publishedAt|date('d/m/y') }})
                       </div>

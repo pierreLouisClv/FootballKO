@@ -47,6 +47,9 @@ class Player
     #[ORM\Column(nullable: true)]
     private ?bool $date_of_return_is_exact = null;
 
+    #[ORM\ManyToOne(inversedBy: 'players')]
+    private ?ExternalArticle $external_info = null;
+
     public function __construct($firstName=null, $lastName=null, $position=null, Club $club=null)
     {
         if($firstName!=null){
@@ -266,5 +269,17 @@ class Player
         $lastName = $this->last_name;
         $firstName = $this->first_name;
         return $lastName == null ? $firstName : $lastName;
+    }
+
+    public function getExternalInfo(): ?ExternalArticle
+    {
+        return $this->external_info;
+    }
+
+    public function setExternalInfo(?ExternalArticle $external_info): self
+    {
+        $this->external_info = $external_info;
+
+        return $this;
     }
 }
