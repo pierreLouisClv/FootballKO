@@ -9,22 +9,15 @@
                         </svg>
                     </div>
                     <div class="pr-2">
-                        {% include 'article/link/publication_date.create.html.twig' %}
+                        {% include 'article/link/publication_date.html.twig' %}
                     </div>
                     <div class="pr-2">
-                        {% if article.category.shortName is null %}
-                            {{ article.category|upper }}
-                        {% else %}
-                            {{ article.category.shortName|upper }}
-                        {% endif %}
+                        {% include 'article/link/category.html.twig' %}
                     </div>
-                    {% if article.getMentionnedClub() is null %}
-                        {{ article.getMentionedChamp().getChampName()|upper }}
-                    {% else %}
-                        <div class="pr-2">
-                            {{ article.getMentionnedClub().clubName|upper }}
-                        </div>
-                    {% endif %}
+                    <div class="pr-2">
+                        {% include 'article/link/associated_entity.html.twig' %}
+                    </div>
+
                 </div>
 
                 <div class="justify-content-center font-weight-bold">

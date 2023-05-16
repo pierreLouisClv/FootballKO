@@ -53,6 +53,9 @@ class Club
     #[ORM\OneToMany(mappedBy: 'club', targetEntity: ExternalArticle::class)]
     private Collection $externalArticles;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $shortName = null;
+
     public function __construct($cityName = null, Championship $champ = null)
     {
         if ($cityName != null) {
@@ -345,6 +348,18 @@ class Club
                 $externalArticle->setClub(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getShortName(): ?string
+    {
+        return $this->shortName;
+    }
+
+    public function setShortName(?string $shortName): self
+    {
+        $this->shortName = $shortName;
 
         return $this;
     }

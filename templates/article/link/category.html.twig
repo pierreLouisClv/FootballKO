@@ -1,0 +1,5 @@
+{% if article.category.shortName is null %}
+    {{ article.category|upper }}
+{% else %}
+    {{ article.category.shortName|upper }}
+{% endif %}

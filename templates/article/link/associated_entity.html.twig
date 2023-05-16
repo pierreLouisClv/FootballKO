@@ -1,0 +1,10 @@
+{% if article.getMentionnedClub() is null %}
+    {{ article.getMentionedChamp().getChampName()|upper }}
+{% else %}
+    {% if article.getMentionnedClub().getShortName() is null %}
+        {{ article.getMentionnedClub().clubName|upper }}
+    {% else %}
+        {{ article.getMentionnedClub().getShortName()|upper  }}
+    {% endif %}
+
+{% endif %}
