@@ -9,7 +9,7 @@
                         </svg>
                     </div>
                     <div class="pr-2">
-                        {{ article.getDDMM() }}
+                        {% include 'article/link/publication_date.create.html.twig' %}
                     </div>
                     <div class="pr-2">
                         {% if article.category.shortName is null %}
