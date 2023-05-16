@@ -1,6 +1,6 @@
 {% if article.publishedAt|date('d/m/y') == date()|date('d/m/y') %}
 
-{{ article.publishedAt|date('h:m') }}
+{{ article.publishedAt|date('H:i') }}
 
 {% else %}
 
