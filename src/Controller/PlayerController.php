@@ -9,6 +9,7 @@ use App\Form\UpdatePlayerType;
 use App\InjuriesHandler\InjuryArticleHandler;
 use App\InjuriesHandler\InjuryTabHandler;
 use App\InjuriesHandler\UpdatePlayerFormHandler;
+use App\Repository\ArticleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Exception\ORMException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -21,7 +22,8 @@ class PlayerController extends AbstractController
     public function __construct(public EntityManagerInterface $em,
                                 public UpdatePlayerFormHandler $updatePlayerFormHandler,
                                 public InjuryTabHandler $injuryTabHandler,
-                                public InjuryArticleHandler $injuryArticleHandler)
+                                public InjuryArticleHandler $injuryArticleHandler,
+                                public ArticleRepository $articleRepository)
     {
     }
 
@@ -51,6 +53,8 @@ class PlayerController extends AbstractController
 
         $player = new Player();
         $player->setClub($team);
+
+        $this->updatePlayerFormHandler->setDefaultInfo($player, $team->getChampionship(), $team);
 
         $form = $this->createForm(UpdatePlayerType::class, $player, [
             'attr' => [
@@ -90,6 +94,10 @@ class PlayerController extends AbstractController
 
         $club = $player -> getClub();
         $champ = $club -> getChampionship();
+
+        if($player->getInfo() == null){
+            $this->updatePlayerFormHandler->setDefaultInfo($player, $champ, $club);
+        }
 
         $form = $this->createForm(UpdatePlayerType::class, $player, [
             'attr' => [
