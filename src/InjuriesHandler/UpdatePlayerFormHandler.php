@@ -1,13 +1,18 @@
 <?php
 
 namespace App\InjuriesHandler;
+use App\Entity\Championship;
+use App\Entity\Club;
 use App\Entity\Player;
+use App\Repository\ArticleRepository;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 
 class UpdatePlayerFormHandler{
 
-    public function __construct(public EntityManagerInterface $em, public InjuryTabHandler $injuryTabHandler)
+    public function __construct(public EntityManagerInterface $em,
+                                public InjuryTabHandler $injuryTabHandler,
+                                public ArticleRepository $articleRepository)
     {
     }
 
@@ -38,6 +43,22 @@ class UpdatePlayerFormHandler{
 
 
         $this->em->flush();
+    }
+
+    public function setDefaultInfo(Player $player, Championship $champ, Club $club):void
+    {
+        $info = $this->articleRepository->createQueryBuilder('article')
+            ->andWhere('article.mentioned_champ = :champ')
+            ->setParameter(':champ', $champ)
+            ->andWhere('article.mentionned_club is NULL')
+            ->orWhere('article.mentionned_club = :club')
+            ->setParameter(':club', $club)
+            ->orderBy('article.publishedAt', 'DESC')
+            ->getQuery()
+            ->getResult();
+        if(count($info)>0){
+            $player->setInfo($info[0]);
+        }
     }
 }
 
