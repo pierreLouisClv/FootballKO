@@ -12,6 +12,7 @@
         "doctrine/doctrine-migrations-bundle": "^3.2",
         "doctrine/orm": "^2.14",
         "easycorp/easyadmin-bundle": "^4.6",
+        "eko/feedbundle": "dev-master",
         "firebase/php-jwt": "^5.5",
         "friendsofsymfony/ckeditor-bundle": "^2.4",
         "leogout/seo-bundle": "^1.3",

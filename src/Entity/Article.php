@@ -7,11 +7,12 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Eko\FeedBundle\Item\Writer\ItemInterface;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 
 #[ORM\Entity(repositoryClass: ArticleRepository::class)]
-class Article
+class Article implements ItemInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -301,5 +302,23 @@ class Article
     }
 
 
+    public function getFeedItemTitle():string
+    {
+        return $this->title;
+    }
 
+    public function getFeedItemDescription():string
+    {
+        return $this->introduction;
+    }
+
+    public function getFeedItemLink():string
+    {
+        return "https://footballko.com/article/".$this->slug;
+    }
+
+    public function getFeedItemPubDate():\DateTime
+    {
+        return $this->publishedAt;
+    }
 }

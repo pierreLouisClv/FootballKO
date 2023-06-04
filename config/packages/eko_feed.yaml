@@ -1,0 +1,7 @@
+eko_feed:
+  feeds:
+    article:
+      title:       'article title'
+      description: 'latests articles'
+      link:        'link'
+      encoding:    'utf-8'
