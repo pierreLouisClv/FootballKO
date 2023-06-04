@@ -19,4 +19,5 @@ return [
     Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle::class => ['all' => true],
     FOS\CKEditorBundle\FOSCKEditorBundle::class => ['all' => true],
     Leogout\Bundle\SeoBundle\LeogoutSeoBundle::class => ['all' => true],
+    Eko\FeedBundle\EkoFeedBundle::class => ['all' => true],
 ];
