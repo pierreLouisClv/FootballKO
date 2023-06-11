@@ -57,6 +57,11 @@ class CustomController extends AbstractController
     #[Route('/next/season', name: 'app_next_season')]
     public function nextSeasonRedirection():Response
     {
+        $connectedUser = $this->getUser();
+        if($connectedUser == null || in_array("'ROLE_ADMIN'", $connectedUser->getRoles())){
+            return $this->redirectToRoute('app_homepage');
+        }
+
         $lastSeasonChamps = $this->championshipRepository->findActiveChamps();
         return $this->render('form/next_season.html.twig',
                 [
@@ -67,6 +72,11 @@ class CustomController extends AbstractController
     #[Route('/remove/relegated/clubs', name: 'app_relegation')]
     public function setRelegation(Request $request):Response
     {
+        $connectedUser = $this->getUser();
+        if($connectedUser == null || in_array("'ROLE_ADMIN'", $connectedUser->getRoles())){
+            return $this->redirectToRoute('app_homepage');
+        }
+
         $selectedClubs = $request->request->all()['clubs'] ?? [];
         $lastSeasonChamps = $this->championshipRepository->findActiveChamps();
         $currentSeasonChamps = $this->championshipRepository->copyChampsForNextSeason($lastSeasonChamps, $selectedClubs);

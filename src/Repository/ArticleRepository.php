@@ -75,6 +75,21 @@ class ArticleRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function getMercatoArticles(int $limit = 15):array
+    {
+        $date = (new \DateTime())->modify('+2 hours');
+        $qb = $this->createQueryBuilder('a');
+        $category = $this->categoryRepository->findOneBy(['slug' => 'mercato']);
+        return $qb
+            ->andWhere('a.publishedAt <= :now')
+            ->setParameter(':now', $date)
+            ->andWhere('a.category = :mercato')
+            ->setParameter(':mercato', $category)
+            ->orderBy('a.publishedAt', 'DESC')
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
 
 //    /**
 //     * @return Article[] Returns an array of Article objects

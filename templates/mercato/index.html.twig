@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block main_content %}
+    <h1 class="h4 mb-3 text-center" style="font-weight: 900; color:#7D9BC0">
+        MERCATO
+    </h1>
+    {% include 'article/last_articles.html.twig' %}
+
+    <a href="{{ path('app_mercato', {'limit' : (limit + 15) }) }}">
+        <i class="bi bi-plus-circle"></i><i> Voir plus d'articles</i>
+    </a>
+{% endblock %}
