@@ -18,6 +18,10 @@
         {{ form_widget(form.cityName, {'attr': {'class': 'form-control'}}) }}
     </div>
     <div class="form-group">
+        {{ form_label(form.shortName, 'Short Name') }}
+        {{ form_widget(form.shortName, {'attr': {'class': 'form-control'}}) }}
+    </div>
+    <div class="form-group">
         {{ form_label(form.championship, 'Championnat') }}
         {{ form_widget(form.championship, {'attr': {'class': 'form-select'}}) }}
     </div>

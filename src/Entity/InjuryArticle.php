@@ -61,12 +61,16 @@ class InjuryArticle
     #[ORM\ManyToOne(inversedBy: 'injuryArticles')]
     private ?User $author = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $season = null;
+
 
     public function __construct(Championship $champ, $day)
     {
         $this->setCreatedAt((new \DateTimeImmutable())->modify('+2 hours'));
         $this->setUpdatedAt((new \DateTime())->modify('+2 hours'));
         $this->setChampionship($champ);
+        $this->setSeason($champ->getSeason());
         $this->setDay($day);
         $this->injuryTabs = new ArrayCollection();
     }
@@ -269,6 +273,18 @@ class InjuryArticle
     public function getSlug()
     {
         return $this->slug;
+    }
+
+    public function getSeason(): ?int
+    {
+        return $this->season;
+    }
+
+    public function setSeason(?int $season): self
+    {
+        $this->season = $season;
+
+        return $this;
     }
 
 

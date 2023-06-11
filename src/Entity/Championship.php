@@ -43,6 +43,12 @@ class Championship
     #[ORM\OneToMany(mappedBy: 'championship', targetEntity: ExternalArticle::class)]
     private Collection $externalArticles;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $season = null;
+
+    #[ORM\Column]
+    private ?bool $isActive = null;
+
     public function __construct($champ_name)
     {
         $this->champ_name = $champ_name;
@@ -70,7 +76,10 @@ class Championship
         return $this->slug;
     }
 
-
+    public function setSlug(string $slug):void
+    {
+        $this->slug = $slug;
+    }
 
     public function getChampName(): ?string
     {
@@ -256,6 +265,30 @@ class Championship
                 $externalArticle->setChampionship(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getSeason(): ?int
+    {
+        return $this->season;
+    }
+
+    public function setSeason(?int $season): self
+    {
+        $this->season = $season;
+
+        return $this;
+    }
+
+    public function isIsActive(): ?bool
+    {
+        return $this->isActive;
+    }
+
+    public function setIsActive(bool $isActive): self
+    {
+        $this->isActive = $isActive;
 
         return $this;
     }

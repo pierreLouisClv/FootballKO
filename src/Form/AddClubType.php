@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Championship;
 use App\Entity\Club;
+use App\Repository\ChampionshipRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -17,8 +18,14 @@ class AddClubType extends AbstractType
         $builder
             ->add('cityName')
             ->add('clubName')
+            ->add('shortName')
             ->add('championship', EntityType::class, [
-                'class' => Championship::class
+                'class' => Championship::class,
+                'query_builder' => function (ChampionshipRepository $cr) {
+                    return $cr->createQueryBuilder('c')
+                        ->where('c.isActive = :isActive')
+                        ->setParameter('isActive', true);
+            }
             ])
             ->add('submit',
                 SubmitType::class, [

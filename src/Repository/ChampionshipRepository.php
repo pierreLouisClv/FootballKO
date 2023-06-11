@@ -21,7 +21,8 @@ use Doctrine\Persistence\ManagerRegistry;
 class ChampionshipRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry,
-                                public EntityManagerInterface $em
+                                public EntityManagerInterface $em,
+    public ClubRepository $clubRepository
     )
     {
         parent::__construct($registry, Championship::class);
@@ -51,19 +52,139 @@ class ChampionshipRepository extends ServiceEntityRepository
         $this->em->flush();
     }
 
-    public function findChamps():ArrayCollection
+    public function findActiveChamps():ArrayCollection
     {
         $champs = new ArrayCollection();
-        $ligue1 = $this->findOneBy(['slug' => 'ligue-1']);
-        $premierleague = $this->findOneBy(['slug' => 'premier-league']);
-        $seriea = $this->findOneBy(['slug' => 'serie-a']);
-        $liga = $this->findOneBy(['slug' => 'laliga']);
+        $ligue1 = $this->findOneBy(['slug' => 'ligue-1', 'isActive' => true]);
+        $premierleague = $this->findOneBy(['slug' => 'premier-league', 'isActive' => true]);
+        $seriea = $this->findOneBy(['slug' => 'serie-a', 'isActive' => true]);
+        $liga = $this->findOneBy(['slug' => 'laliga', 'isActive' => true]);
+        $bundesliga = $this->findOneBy(['slug' => 'bundesliga', 'isActive' => true]);
 
-        $champs->add($ligue1);
-        $champs->add($premierleague);
-        $champs->add($seriea);
-        $champs->add($liga);
+        if($ligue1 != null)
+        {
+            $champs->add($ligue1);
+        }
+        if($premierleague != null)
+        {
+            $champs->add($premierleague);
+        }
+        if($seriea != null)
+        {
+            $champs->add($seriea);
+        }
+        if($liga != null)
+        {
+            $champs->add($liga);
+        }
+        if($bundesliga != null)
+        {
+            $champs->add($bundesliga);
+        }
+
 
         return $champs;
+    }
+
+    public function findChampsFromSeason(int $season):ArrayCollection
+    {
+        $champs = new ArrayCollection();
+        $ligue1 = $this->findOneBy(['champ_name' => 'Ligue 1', 'season' => $season]);
+        $premierleague = $this->findOneBy(['champ_name' => 'Premier League', 'season' => $season]);
+        $seriea = $this->findOneBy(['champ_name' => 'Série A', 'season' => $season]);
+        $liga = $this->findOneBy(['champ_name' => 'LaLiga', 'season' => $season]);
+        $bundesliga = $this->findOneBy(['champ_name' => 'Bundesliga', 'season' => $season]);
+
+        if($ligue1 != null)
+        {
+            $champs->add($ligue1);
+        }
+        if($premierleague != null)
+        {
+            $champs->add($premierleague);
+        }
+        if($seriea != null)
+        {
+            $champs->add($seriea);
+        }
+        if($liga != null)
+        {
+            $champs->add($liga);
+        }
+        if($bundesliga != null)
+        {
+            $champs->add($bundesliga);
+        }
+
+
+        return $champs;
+    }
+
+    public function copyChampsForNextSeason(ArrayCollection $lastSeasonChamps, array $relegatedClubsId):array
+    {
+        $champs = new ArrayCollection();
+        foreach($lastSeasonChamps as $lastSeasonChamp)
+        {
+            $lastSeason = $lastSeasonChamp->getSeason();
+            $originalSlug = $lastSeasonChamp->getSlug();
+            $lastSeasonChamp->setSlug($originalSlug."-".$lastSeason);
+            $lastSeasonChamp->setIsActive(false);
+
+            $champ = new Championship($lastSeasonChamp->getChampName());
+            $champ->setSeason($lastSeason + 1);
+            $champ->setCurrentDay(0);
+            $champ->setSlug($originalSlug);
+            $champ->setIsActive(true);
+            $this->copyArticlesAndMediasFromChamp($champ, $lastSeasonChamp);
+            $this->copyClubsFromChamp($champ, $lastSeasonChamp, $relegatedClubsId);
+            $this->em->persist($champ);
+            $champs->add($champ);
+        }
+        return $champs->toArray();
+    }
+
+    public function copyArticlesAndMediasFromChamp(Championship $newChamp, Championship $copiedChamp):void
+    {
+        foreach ($copiedChamp->getCommonArticles() as $article)
+        {
+            $newChamp->addCommonArticle($article);
+        }
+        foreach ($copiedChamp->getMedias() as $media)
+        {
+            $newChamp->addMedia($media);
+        }
+        foreach ($copiedChamp->getExternalArticles() as $extArticle)
+        {
+            $newChamp->addExternalArticle($extArticle);
+        }
+    }
+
+    public function copyClubsFromChamp(Championship $newChamp, Championship $copiedChamp, array $relegatedClubsId):void
+    {
+        $notCopiedClubs = new ArrayCollection($relegatedClubsId);
+        foreach ($copiedChamp->getClubs() as $club)
+        {
+            $isRelegated = false;
+            foreach ($notCopiedClubs as $id)
+            {
+                if($club->getId() == $id)
+                {
+                    $isRelegated = true;
+                }
+            }
+            if(!$isRelegated)
+            {
+                $newChamp->addClub($club);
+            }
+            $club->setActiveSeason($newChamp->getSeason());
+            $this->em->persist($club);
+        }
+    }
+
+    public function findPreviousChampionship(Championship $championship):Championship
+    {
+        $season = $championship->getSeason() - 1;
+        $name = $championship->getChampName();
+        return $this->findOneBy(['champ_name'=>$name, 'season' => $season]);
     }
 }
