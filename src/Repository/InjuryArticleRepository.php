@@ -50,6 +50,10 @@ class InjuryArticleRepository extends ServiceEntityRepository
         $injuryArticles = new ArrayCollection();
         foreach($champs as $champ){
             $currentChampDay = $champ->getCurrentDay();
+            if($currentChampDay == 0)
+            {
+
+            }
             $injuryArticle = $this->findOneBy(['championship' => $champ, 'day'=>$currentChampDay]);
             if($injuryArticle == null){
                 $injuryArticle = $this->findOneBy(['championship' => $champ, 'day'=>$currentChampDay - 1]);

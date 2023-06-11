@@ -56,6 +56,9 @@ class Club
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $shortName = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $activeSeason = null;
+
     public function __construct($cityName = null, Championship $champ = null)
     {
         if ($cityName != null) {
@@ -360,6 +363,18 @@ class Club
     public function setShortName(?string $shortName): self
     {
         $this->shortName = $shortName;
+
+        return $this;
+    }
+
+    public function getActiveSeason(): ?int
+    {
+        return $this->activeSeason;
+    }
+
+    public function setActiveSeason(?int $activeSeason): self
+    {
+        $this->activeSeason = $activeSeason;
 
         return $this;
     }

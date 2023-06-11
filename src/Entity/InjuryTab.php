@@ -38,10 +38,14 @@ class InjuryTab
     #[ORM\ManyToOne(inversedBy: 'injuryTabs')]
     private ?InjuryArticle $article = null;
 
-    public function __construct($day, Club $club)
+    #[ORM\Column(nullable: true)]
+    private ?int $season = null;
+
+    public function __construct(int $day, Club $club)
     {
         $this->club = $club;
         $this->day = $day;
+        $this->season = $club->getActiveSeason();
         $this->createdAt = (new \DateTimeImmutable())->modify('+2 hours');
         $this->updateAt = (new \DateTimeImmutable())->modify('+2 hours');
         $this->status = "not_updated";
@@ -159,6 +163,18 @@ class InjuryTab
         $players = $this->getAbsent()->toArray();
         natsort($players);
         return $players;
+    }
+
+    public function getSeason(): ?int
+    {
+        return $this->season;
+    }
+
+    public function setSeason(?int $season): self
+    {
+        $this->season = $season;
+
+        return $this;
     }
 
 }

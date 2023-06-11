@@ -7,6 +7,7 @@ use App\Entity\InjuryArticle;
 use App\Repository\ArticleRepository;
 use App\Repository\ChampionshipRepository;
 use App\Repository\InjuryArticleRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -29,7 +30,9 @@ class HomepageController extends AbstractController
     #[Route('/homepage', name: 'app_homepage')]
     public function homepage(): Response
     {
-        $champs = $this->championshipRepository->findChamps();
+        $injuryArticles = new ArrayCollection();
+        $champs = $this->championshipRepository->findChampsFromSeason(2022);
+        /*$champs = $this->championshipRepository->findActiveChamps();*/
         $injuryArticles = $this->injuryArticleRepository->getLastInjuryArticles($champs);
         $lastArticles = $this->articleRepository->getLastArticles();
         return $this->render('homepage/index.html.twig', [

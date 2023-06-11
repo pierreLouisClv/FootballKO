@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block main_content %}
+
+<form method="post" action="{{ path('app_relegation') }}">
+    {% for championship in championships %}
+        <h3>{{ championship.getChampName()|upper }}</h3>
+        {% for club in championship.clubs %}
+            <label>
+                <input type="checkbox" name="clubs[]" value="{{ club.id }}">
+                {{ club.clubName() }}
+            </label>
+            <br>
+        {% endfor %}
+    {% endfor %}
+    <button type="submit">Soumettre</button>
+</form>
+
+{% endblock %}

@@ -75,8 +75,8 @@ class TeamController extends AbstractController
         $players = $this->playerRepository->getPlayersFromClubSortedByName($team);
         $champ = $team->getChampionship();
         $day = $champ->getCurrentDay();
-        $injuryArticle = $this->injuryArticleRepository->findOneBy(['championship' => $champ, 'day'=>$day]);
-        $injuryTab = $this->injuryTabRepository->findOneBy(['club' => $team, 'day' => $day]);
+        $injuryArticle = $this->injuryArticleRepository->findOneBy(['championship' => $champ, 'day'=>$day, 'season' => $champ->getSeason()]);
+        $injuryTab = $this->injuryTabRepository->findOneBy(['club' => $team, 'day' => $day, 'season' => $champ->getSeason()]);
         return $this->render('team/modify.html.twig', [
             'team' => $team,
             'players' => $players,

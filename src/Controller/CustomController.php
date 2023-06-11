@@ -7,7 +7,10 @@ use App\InjuriesHandler\ClubHandler;
 use App\InjuriesHandler\InjuryTabHandler;
 use App\Repository\ArticleRepository;
 use App\Repository\ChampionshipRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -16,6 +19,7 @@ class CustomController extends AbstractController
     public function __construct(public ChampionshipRepository $championshipRepository,
                                 public InjuryTabHandler $injuryTabHandler,
                                 public ArticleRepository $articleRepository,
+    public EntityManagerInterface $em,
     public ClubHandler $clubHandler)
     {
     }
@@ -23,7 +27,7 @@ class CustomController extends AbstractController
     #[Route('/custom/homepage', name: 'app_custom_homepage')]
     public function homepage():Response
     {
-        $allChamps = $this->championshipRepository->findChamps();
+        $allChamps = $this->championshipRepository->findActiveChamps();
 
         return $this->render('custom/homepage.html.twig', [
             'controller_name' => 'HomepageController',
@@ -48,5 +52,26 @@ class CustomController extends AbstractController
             $this->addFlash('success', 'Prochaine journée : J'.$champ->getCurrentDay());
         }
         return $this->redirectToRoute('app_custom_homepage');
+    }
+
+    #[Route('/next/season', name: 'app_next_season')]
+    public function nextSeasonRedirection():Response
+    {
+        $lastSeasonChamps = $this->championshipRepository->findActiveChamps();
+        return $this->render('form/next_season.html.twig',
+                [
+                    'championships' => $lastSeasonChamps
+                ]);
+    }
+
+    #[Route('/remove/relegated/clubs', name: 'app_relegation')]
+    public function setRelegation(Request $request):Response
+    {
+        $selectedClubs = $request->request->all()['clubs'] ?? [];
+        $lastSeasonChamps = $this->championshipRepository->findActiveChamps();
+        $currentSeasonChamps = $this->championshipRepository->copyChampsForNextSeason($lastSeasonChamps, $selectedClubs);
+        $this->em->flush();
+
+        return $this->redirectToRoute('app_homepage');
     }
 }

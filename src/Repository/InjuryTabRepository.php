@@ -64,8 +64,8 @@ class InjuryTabRepository extends ServiceEntityRepository
     public function getCurrentInjuryTabs(Championship $championship):Collection{
         $injuryTabs = new ArrayCollection();
         $day = $championship->getCurrentDay();
-        foreach($championship->getClubs() as $team){
-            $injuryTab = $this->findOneBy(['day' => $day, 'club' => $team]);
+        foreach($championship->getClubsSortedByName() as $team){
+            $injuryTab = $this->findOneBy(['day' => $day, 'club' => $team, 'season' => $championship->getSeason()]);
             if($injuryTab == null){
                 $this->createInjuryTab($day, $team);
             }
@@ -76,7 +76,7 @@ class InjuryTabRepository extends ServiceEntityRepository
 
     public function getCurrentInjuryTab(Club $team):InjuryTab{
         $currentDay = $team->getChampionship()->getCurrentDay();
-        $injuryTab = $this->findOneBy(['club' => $team, 'day' => $currentDay]);
+        $injuryTab = $this->findOneBy(['club' => $team, 'day' => $currentDay, 'season' => $team->getChampionship()->getSeason()]);
         if($injuryTab==null){
             $injuryTab = $this->createInjuryTab($currentDay, $team);
             $this->em->persist($injuryTab);
@@ -90,7 +90,7 @@ class InjuryTabRepository extends ServiceEntityRepository
         $clubs = $this->clubRepository->getClubsSortedByCityName($champ);
         $injuryTabs = new ArrayCollection();
         foreach ($clubs as $club) {
-            $injuryTab = $this->findOneBy(['club' => $club, 'day' => $day]);
+            $injuryTab = $this->findOneBy(['club' => $club, 'day' => $day, 'season' => $champ->getSeason()]);
             if ($injuryTab == null) {
                 $injuryTab = $this->createInjuryTab($day, $club);
             }
@@ -100,7 +100,7 @@ class InjuryTabRepository extends ServiceEntityRepository
     }
 
 
-    public function createInjuryTab($day, Club $team): InjuryTab{
+    public function createInjuryTab(int $day, Club $team): InjuryTab{
         $injuryTab = new InjuryTab($day, $team);
             foreach($team->getPlayers() as $player) {
                 if ($player->getInjuryStatus() != "OK") {

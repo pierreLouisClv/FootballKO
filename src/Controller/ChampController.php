@@ -107,7 +107,7 @@ class ChampController extends AbstractController
         $author = $this->userRepository->findOneBy(['email' => $connectedUser->getUserIdentifier()]);
 
         $day = $champ -> getCurrentDay();
-        $article = $this->injuryArticleRepository->findOneBy(['championship' => $champ, 'day'=> $day]);
+        $article = $this->injuryArticleRepository->findOneBy(['championship' => $champ, 'day'=> $day, 'season' => $champ->getSeason()]);
 
         if($article != null){
             $this->addFlash('danger', "L'article en ".$champ->getChampName()." de la J".$day." a déjà été créé");

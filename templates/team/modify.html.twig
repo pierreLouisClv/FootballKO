@@ -32,6 +32,9 @@
 
 {% block secondary_content %}
     <div class="d-flex flex-column">
+        {% if injuryTab is null %}
+            <h1 class="pt-3">Lancer la saison pour créer le premier tableau de blessés et le première article</h1>
+        {% else %}
         {% set championship = team.championship %}
         {% include 'injury_article/status.html.twig' %}
         <h1 class="h4 pt-3">MAJ Tableau : </h1>
@@ -60,6 +63,7 @@
             <div class="text-success">
                 <a href="{{ path('app_update_group', {'slug':team.slug}) }}">Mettre à jour le groupe</a>
             </div>
+        {% endif %}
         {% endif %}
 
     </div>

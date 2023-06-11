@@ -31,10 +31,19 @@ class InjuryArticleController extends AbstractController
     public function show(Championship $champ):Response
     {
         $day = $champ->getCurrentDay();
-        $injuryArticle = $this->injuryArticleRepository->findOneBy(['championship'=>$champ, 'day'=>$day]);
+        $season = $champ->getSeason();
+        $injuryArticle = $this->injuryArticleRepository->findOneBy(['championship'=>$champ, 'day'=>$day, 'season' => $season]);
         $now = (new \DateTime())->modify('+2 hours');
+        if($day == 0)
+        {
+            $champ = $this->championshipRepository->findPreviousChampionship($champ);
+            $day = $champ->getSeason();
+            $season = $champ->getSeason();
+            $injuryArticle = $this->injuryArticleRepository->findOneBy(['championship'=>$champ, 'day'=>$day, 'season' => $season]);
+        }
         while($injuryArticle == null || $injuryArticle->getPublishedAt() > $now){
             $day = $day - 1;
+            $injuryArticle = $this->injuryArticleRepository->findOneBy(['championship'=>$champ, 'day'=>$day, 'season' => $champ->getSeason()]);
             if($day == 0){
                 return $this->redirectToRoute('app_homepage');
             }
