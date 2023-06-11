@@ -11,24 +11,22 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class SurgeryController extends AbstractController
+class MercatoControler extends AbstractController
 {
 
     public function __construct(public InjuryArticleRepository $injuryArticleRepository,
-                                public ChampionshipRepository $championshipRepository,
-                                public ArticleRepository $articleRepository)
+                                public ChampionshipRepository  $championshipRepository,
+                                public ArticleRepository       $articleRepository)
     {
     }
 
-    #[Route('/surgery/{limit}', name: 'app_surgery')]
+    #[Route('/mercato/{limit}', name: 'app_mercato')]
     public function index(int $limit = 15): Response
     {
-        $lastArticles = $this->articleRepository->getSurgeryArticles($limit);
-        return $this->render('surgery/index.html.twig', [
+        $lastArticles = $this->articleRepository->getMercatoArticles($limit);
+        return $this->render('mercato/index.html.twig', [
             'last_articles' => $lastArticles,
             'limit' => $limit
         ]);
     }
-
-
 }

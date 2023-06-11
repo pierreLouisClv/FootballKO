@@ -37,12 +37,16 @@ class Category
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $shortName = null;
 
-    public function __construct($name)
+    public function __construct($name = null)
     {
-        $this->name = $name;
+        if($name != null)
+        {
+            $this->name = $name;
+        }
         $this->articles = new ArrayCollection();
         $this->injuryArticles = new ArrayCollection();
     }
+
 
     public function getId(): ?int
     {
