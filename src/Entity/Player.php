@@ -50,6 +50,9 @@ class Player
     #[ORM\ManyToOne(inversedBy: 'players')]
     private ?ExternalArticle $external_info = null;
 
+    #[ORM\OneToMany(mappedBy: 'player_instance', targetEntity: Signing::class)]
+    private Collection $signs;
+
     public function __construct($firstName=null, $lastName=null, $position=null, Club $club=null)
     {
         if($firstName!=null){
@@ -68,6 +71,7 @@ class Player
         $this->mentions = new ArrayCollection();
         $this->injuryTabs = new ArrayCollection();
         $this->incertainTabs = new ArrayCollection();
+        $this->signs = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -279,6 +283,66 @@ class Player
     public function setExternalInfo(?ExternalArticle $external_info): self
     {
         $this->external_info = $external_info;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Signing>
+     */
+    public function getSignings(): Collection
+    {
+        return $this->signings;
+    }
+
+    public function addSigning(Signing $signing): self
+    {
+        if (!$this->signings->contains($signing)) {
+            $this->signings->add($signing);
+            $signing->setPlayer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSigning(Signing $signing): self
+    {
+        if ($this->signings->removeElement($signing)) {
+            // set the owning side to null (unless already changed)
+            if ($signing->getPlayer() === $this) {
+                $signing->setPlayer(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Signing>
+     */
+    public function getSigns(): Collection
+    {
+        return $this->signs;
+    }
+
+    public function addSign(Signing $sign): self
+    {
+        if (!$this->signs->contains($sign)) {
+            $this->signs->add($sign);
+            $sign->setPlayerInstance($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSign(Signing $sign): self
+    {
+        if ($this->signs->removeElement($sign)) {
+            // set the owning side to null (unless already changed)
+            if ($sign->getPlayerInstance() === $this) {
+                $sign->setPlayerInstance(null);
+            }
+        }
 
         return $this;
     }

@@ -59,6 +59,12 @@ class Club
     #[ORM\Column(nullable: true)]
     private ?int $activeSeason = null;
 
+    #[ORM\OneToMany(mappedBy: 'left_club_instance', targetEntity: Signing::class)]
+    private Collection $departures;
+
+    #[ORM\OneToMany(mappedBy: 'joined_club_instance', targetEntity: Signing::class)]
+    private Collection $arrivals;
+
     public function __construct($cityName = null, Championship $champ = null)
     {
         if ($cityName != null) {
@@ -74,6 +80,8 @@ class Club
         $this->articles = new ArrayCollection();
         $this->medias = new ArrayCollection();
         $this->externalArticles = new ArrayCollection();
+        $this->signings = new ArrayCollection();
+        $this->arrivals = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -378,5 +386,75 @@ class Club
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, Signing>
+     */
+    public function getSignings(): Collection
+    {
+        return $this->signings;
+    }
+
+    public function addSigning(Signing $signing): self
+    {
+        if (!$this->signings->contains($signing)) {
+            $this->signings->add($signing);
+            $signing->setLeftedClubInstance($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSigning(Signing $signing): self
+    {
+        if ($this->signings->removeElement($signing)) {
+            // set the owning side to null (unless already changed)
+            if ($signing->getLeftedClubInstance() === $this) {
+                $signing->setLeftedClubInstance(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Signing>
+     */
+    public function getArrivals(): Collection
+    {
+        return $this->arrivals;
+    }
+
+    public function addArrival(Signing $arrival): self
+    {
+        if (!$this->arrivals->contains($arrival)) {
+            $this->arrivals->add($arrival);
+            $arrival->setJoinedClubInstance($this);
+        }
+
+        return $this;
+    }
+
+    public function removeArrival(Signing $arrival): self
+    {
+        if ($this->arrivals->removeElement($arrival)) {
+            // set the owning side to null (unless already changed)
+            if ($arrival->getJoinedClubInstance() === $this) {
+                $arrival->setJoinedClubInstance(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getPlayersSortedByName(): array
+    {
+        $players = $this->getPlayers()->toArray();
+        usort($players, function (Player $player1, Player $player2) {
+            return strcmp($player1->getLastName(), $player2->getLastName());
+        });
+        return $players;
+    }
+
 
 }

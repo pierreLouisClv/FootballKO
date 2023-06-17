@@ -3,10 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\Championship;
+use App\Entity\Player;
 use App\InjuriesHandler\ClubHandler;
 use App\InjuriesHandler\InjuryTabHandler;
 use App\Repository\ArticleRepository;
 use App\Repository\ChampionshipRepository;
+use App\Repository\ClubRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
@@ -19,6 +21,7 @@ class CustomController extends AbstractController
     public function __construct(public ChampionshipRepository $championshipRepository,
                                 public InjuryTabHandler $injuryTabHandler,
                                 public ArticleRepository $articleRepository,
+    public ClubRepository $clubRepository,
     public EntityManagerInterface $em,
     public ClubHandler $clubHandler)
     {
@@ -84,4 +87,5 @@ class CustomController extends AbstractController
 
         return $this->redirectToRoute('app_homepage');
     }
+
 }

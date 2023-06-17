@@ -63,6 +63,8 @@ class ClubRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+
+
 //    /**
 //     * @return Club[] Returns an array of Club objects
 //     */
