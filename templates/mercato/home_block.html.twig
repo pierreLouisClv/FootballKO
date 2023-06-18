@@ -1,0 +1,25 @@
+
+<div class="row justify-content-around">
+    {% for article in mercato_articles %}
+
+        {% if article is null %}
+
+        {% else %}
+
+            <div class="article" style="">
+                <a href="{{ path('app_mercato_article_show', {'slug':article.getMentionedChamp().slug, 'season':2023}) }}">
+                    <img class="" style=""
+                         src="/uploads/{{ article.media.filename }}" alt="{{ article.media.altText }}" />
+                    <div class="details pb-0 mb-0 d-flex">
+                        <div class="category mr-2">{{ article.category }}</div>
+                        <div class="category mr-2">{{ article.getMentionedChamp() }}</div>
+                    </div>
+                    <div class="date mt-0 pt-0">Publié le : {{ article.publishedAtToString() }}</div>
+                    <h1 class="h5" style="font-family: 'Anton', sans-serif; letter-spacing: -1px;font-weight:800">{{ article.title }}</h1>
+                </a>
+            </div>
+
+        {% endif %}
+
+    {% endfor %}
+</div>

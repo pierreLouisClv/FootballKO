@@ -63,10 +63,18 @@ class Article implements ItemInterface
     #[ORM\ManyToOne(inversedBy: 'commonArticles')]
     private ?Championship $mentioned_champ = null;
 
+    #[ORM\ManyToMany(targetEntity: Club::class, inversedBy: 'linkedArticles')]
+    private Collection $clubs;
+
+    #[ORM\ManyToMany(targetEntity: Player::class, inversedBy: 'articles')]
+    private Collection $players;
+
     public function __construct()
     {
         $this->createdAt = (new \DateTimeImmutable())->modify('+2 hours');
         $this->mentionedPlayers = new ArrayCollection();
+        $this->clubs = new ArrayCollection();
+        $this->players = new ArrayCollection();
 
     }
 
@@ -320,5 +328,53 @@ class Article implements ItemInterface
     public function getFeedItemPubDate():\DateTime
     {
         return $this->publishedAt;
+    }
+
+    /**
+     * @return Collection<int, Club>
+     */
+    public function getClubs(): Collection
+    {
+        return $this->clubs;
+    }
+
+    public function addClub(Club $club): self
+    {
+        if (!$this->clubs->contains($club)) {
+            $this->clubs->add($club);
+        }
+
+        return $this;
+    }
+
+    public function removeClub(Club $club): self
+    {
+        $this->clubs->removeElement($club);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Player>
+     */
+    public function getPlayers(): Collection
+    {
+        return $this->players;
+    }
+
+    public function addPlayer(Player $player): self
+    {
+        if (!$this->players->contains($player)) {
+            $this->players->add($player);
+        }
+
+        return $this;
+    }
+
+    public function removePlayer(Player $player): self
+    {
+        $this->players->removeElement($player);
+
+        return $this;
     }
 }

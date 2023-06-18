@@ -1,0 +1,22 @@
+{% extends 'article/article_form.html.twig' %}
+
+{% block category %}
+    <div class="form-group">
+        {{ form_label(form.category, 'Catégorie') }}
+        {{ form_widget(form.category, {'attr': {'class': 'form-select'}}) }}
+    </div>
+{% endblock %}
+
+{% block secondary_content %}
+    <div class="form-group">
+        {{ form_label(form.introduction, 'Description') }}
+        {{ form_widget(form.introduction, {'attr': {'class': 'form-control'}}) }}
+    </div>
+
+    <div class="form-group">
+        {{ form_label(form.keywords, 'Mots clés') }}
+        {{ form_widget(form.keywords, {'attr': {'class': 'form-control'}}) }}
+    </div>
+
+    {{ form_end(form) }}
+{% endblock %}

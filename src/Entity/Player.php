@@ -53,6 +53,9 @@ class Player
     #[ORM\OneToMany(mappedBy: 'player_instance', targetEntity: Signing::class)]
     private Collection $signs;
 
+    #[ORM\ManyToMany(targetEntity: Article::class, mappedBy: 'players')]
+    private Collection $articles;
+
     public function __construct($firstName=null, $lastName=null, $position=null, Club $club=null)
     {
         if($firstName!=null){
@@ -72,6 +75,7 @@ class Player
         $this->injuryTabs = new ArrayCollection();
         $this->incertainTabs = new ArrayCollection();
         $this->signs = new ArrayCollection();
+        $this->articles = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -342,6 +346,33 @@ class Player
             if ($sign->getPlayerInstance() === $this) {
                 $sign->setPlayerInstance(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Article>
+     */
+    public function getArticles(): Collection
+    {
+        return $this->articles;
+    }
+
+    public function addArticle(Article $article): self
+    {
+        if (!$this->articles->contains($article)) {
+            $this->articles->add($article);
+            $article->addPlayer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeArticle(Article $article): self
+    {
+        if ($this->articles->removeElement($article)) {
+            $article->removePlayer($this);
         }
 
         return $this;

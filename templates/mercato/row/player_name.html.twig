@@ -1,0 +1,7 @@
+{% if signing.getPlayerInstance() is null %}
+    {{ signing.getPlayer() }}
+
+{% else %}
+    {{ signing.getPlayerInstance().getFullName() }}
+
+{% endif %}

@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Article;
+use App\Entity\Category;
 use App\Entity\Championship;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -89,6 +90,20 @@ class ArticleRepository extends ServiceEntityRepository
             ->setMaxResults($limit)
             ->getQuery()
             ->getResult();
+    }
+
+    public function getMercatoTabArticles(ArrayCollection $champs, Category $mercato):ArrayCollection
+    {
+        $mercatoArticles = new ArrayCollection();
+        foreach($champs as $champ)
+        {
+            $mercatoArticle = $this->findOneBy(['mentioned_champ' => $champ, 'category' => $mercato]);
+            if($mercatoArticle != null)
+            {
+                $mercatoArticles->add($mercatoArticle);
+            }
+        }
+        return $mercatoArticles;
     }
 
 //    /**

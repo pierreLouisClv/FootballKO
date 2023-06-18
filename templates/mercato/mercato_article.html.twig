@@ -1,0 +1,11 @@
+{% extends 'article/show.html.twig' %}
+
+{% block date_info %}
+
+    <div class="text-secondary mb-2">Publié le {{ article.publishedAtToString() }}</div>
+
+{% endblock %}
+
+{% block tab %}
+    {% include('mercato/championship_tables.html.twig') %}
+{% endblock %}

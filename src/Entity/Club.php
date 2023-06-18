@@ -65,6 +65,13 @@ class Club
     #[ORM\OneToMany(mappedBy: 'joined_club_instance', targetEntity: Signing::class)]
     private Collection $arrivals;
 
+    #[ORM\ManyToMany(targetEntity: Article::class, mappedBy: 'clubs')]
+    private Collection $linkedArticles;
+
+    /**
+     * @return Collection
+     */
+
     public function __construct($cityName = null, Championship $champ = null)
     {
         if ($cityName != null) {
@@ -80,8 +87,8 @@ class Club
         $this->articles = new ArrayCollection();
         $this->medias = new ArrayCollection();
         $this->externalArticles = new ArrayCollection();
-        $this->signings = new ArrayCollection();
         $this->arrivals = new ArrayCollection();
+        $this->linkedArticles = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -390,36 +397,6 @@ class Club
     /**
      * @return Collection<int, Signing>
      */
-    public function getSignings(): Collection
-    {
-        return $this->signings;
-    }
-
-    public function addSigning(Signing $signing): self
-    {
-        if (!$this->signings->contains($signing)) {
-            $this->signings->add($signing);
-            $signing->setLeftedClubInstance($this);
-        }
-
-        return $this;
-    }
-
-    public function removeSigning(Signing $signing): self
-    {
-        if ($this->signings->removeElement($signing)) {
-            // set the owning side to null (unless already changed)
-            if ($signing->getLeftedClubInstance() === $this) {
-                $signing->setLeftedClubInstance(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Signing>
-     */
     public function getArrivals(): Collection
     {
         return $this->arrivals;
@@ -435,6 +412,30 @@ class Club
         return $this;
     }
 
+
+    public function getDepartures(): Collection
+    {
+        return $this->departures;
+    }
+
+    /**
+     * @param Collection $departures
+     */
+    public function setDepartures(Collection $departures): void
+    {
+        $this->departures = $departures;
+    }
+
+    public function addDeparture(Signing $departure):self
+    {
+        if(!$this->departures->contains($departure))
+        {
+            $this->departures->add($departure);
+            $departure->setLeftClubInstance($this);
+        }
+
+        return $this;
+    }
     public function removeArrival(Signing $arrival): self
     {
         if ($this->arrivals->removeElement($arrival)) {
@@ -454,6 +455,33 @@ class Club
             return strcmp($player1->getLastName(), $player2->getLastName());
         });
         return $players;
+    }
+
+    /**
+     * @return Collection<int, Article>
+     */
+    public function getLinkedArticles(): Collection
+    {
+        return $this->linkedArticles;
+    }
+
+    public function addLinkedArticle(Article $linkedArticle): self
+    {
+        if (!$this->linkedArticles->contains($linkedArticle)) {
+            $this->linkedArticles->add($linkedArticle);
+            $linkedArticle->addClub($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLinkedArticle(Article $linkedArticle): self
+    {
+        if ($this->linkedArticles->removeElement($linkedArticle)) {
+            $linkedArticle->removeClub($this);
+        }
+
+        return $this;
     }
 
 

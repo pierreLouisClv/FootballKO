@@ -1,5 +1,8 @@
 {% if article.getMentionnedClub() is null %}
+    {% if article.getMentionedChamp() is null %}
+        {% else %}
     {{ article.getMentionedChamp().getChampName()|upper }}
+            {% endif %}
 {% else %}
     {% if article.getMentionnedClub().getShortName() is null %}
         {{ article.getMentionnedClub().clubName|upper }}

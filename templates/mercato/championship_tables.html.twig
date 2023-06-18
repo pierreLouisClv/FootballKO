@@ -1,0 +1,6 @@
+{% for club in clubs %}
+    <h1 class="pt-3 h5">{{ club.getClubName()|upper }}</h1>
+    {% set arrivals = club.getArrivals() %}
+    {% set departures = club.getDepartures() %}
+    {% include 'mercato/table.html.twig' %}
+{% endfor %}
