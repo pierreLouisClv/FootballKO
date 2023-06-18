@@ -1,0 +1,9 @@
+{% if signing.getLeftClubInstance() is null %}
+    {% if signing.getLeftClub() is null %}
+        {% else %}
+    ({{ signing.getLeftClub() }})
+    {% endif %}
+{% else %}
+    ({{ signing.getLeftClubInstance().getClubName() }})
+
+{% endif %}

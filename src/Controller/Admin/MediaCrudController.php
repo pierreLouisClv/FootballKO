@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Media;
+use App\Repository\ChampionshipRepository;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
@@ -43,7 +44,12 @@ class MediaCrudController extends AbstractCrudController
 
         yield AssociationField::new('associatedChampionship')->setFormTypeOptions(
             ['label' => 'Championnat associé',
-                'required' => true
+                'required' => false,
+                'query_builder' => function (ChampionshipRepository $repo) {
+                    return $repo->createQueryBuilder('c')
+                        ->andWhere('c.isActive = :boolean')
+                        ->setParameter(':boolean', true);
+            }
             ]);
 
     }

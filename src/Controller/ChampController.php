@@ -12,6 +12,7 @@ use App\Form\InjuryArticleType;
 use App\InjuriesHandler\ArticleHandler;
 use App\InjuriesHandler\InjuryArticleHandler;
 use App\Repository\ArticleRepository;
+use App\Repository\CategoryRepository;
 use App\Repository\ChampionshipRepository;
 use App\Repository\ClubRepository;
 use App\Repository\InjuryArticleRepository;
@@ -39,6 +40,7 @@ class ChampController extends AbstractController
                                 public SeoGeneratorProvider $seoGeneratorProvider,
                                 public ArticleHandler $articleHandler,
                                 public UserRepository $userRepository,
+                                public CategoryRepository $categoryRepository
     )
     {
     }
@@ -203,4 +205,32 @@ class ChampController extends AbstractController
             'not_updated_clubs' => $otherClubs,
         ]);
     }
+
+    #[Route('/mercato/article/show/{slug}/{season}', name: 'app_mercato_article_show')]
+    public function showMercatoArticle(string $slug, int $season):Response
+    {
+        $championship = $this->championshipRepository->findOneBy(['slug'=>$slug]);
+        $category = $this->categoryRepository->findOneBy(['slug'=>'mercato']);
+        $article = $this->articleRepository->findOneBy(['mentioned_champ' => $championship, 'category' => $category]);
+        if($article == null){
+            return $this->redirectToRoute('app_homepage');
+        }
+
+        $lastArticles = $this->articleRepository->getLastArticles(15, $championship);
+
+        $basicResource = $this->seoResourcesHandler->createBasicResourcesForArticle($article);
+        $twitterResource = $this->seoResourcesHandler->createTwitterResourcesArticle($article);
+        $ogResource = $this->seoResourcesHandler->createOgResourcesArticle($article);
+
+        $this->seoGeneratorProvider->get('basic')->fromResource($basicResource);
+        $this->seoGeneratorProvider->get('twitter')->fromResource($twitterResource);
+        $this->seoGeneratorProvider->get('og')->fromResource($ogResource);
+
+        return $this->render('mercato/mercato_article.html.twig', [
+            'article' => $article,
+            'clubs' => $championship->getClubsSortedByName(),
+            'last_articles' => $lastArticles
+        ]);
+    }
+
 }

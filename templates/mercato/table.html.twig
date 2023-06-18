@@ -1,0 +1,43 @@
+<div class="container">
+    <div class="row">
+        <div class="col-6">
+            <table class="table table-striped pt-3 border border-success">
+
+                <thead class="rounded-top border border-success">
+                <tr>
+                    <th scope="col" class="text-success"><i class="bi bi-person-plus-fill text-success"></i> Arrivées</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for signing in arrivals %}
+                    <tr>
+                        <td>
+                            {% include 'mercato/row/player_name.html.twig' %} {% include 'mercato/row/left_club.html.twig' %}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="col-6">
+            <table class="table table-striped pt-3 border border-danger">
+
+                <thead class="rounded-top border border-danger">
+                <tr>
+                    <th scope="col" class="text-danger"><i class="bi bi-door-closed-fill text-danger"></i> Départs</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for signing in departures %}
+                    <tr>
+                        <td>
+                            {% include 'mercato/row/player_name.html.twig' %} {% include 'mercato/row/joined_club.html.twig' %}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>

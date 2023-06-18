@@ -1,0 +1,9 @@
+{% if signing.getJoinedClubInstance() is null %}
+    {% if signing.getJoinedClub() is null %}
+    {% else %}
+        ({{ signing.getJoinedClub() }})
+    {% endif %}
+{% else %}
+    ({{ signing.getJoinedClubInstance().getClubName() }})
+
+{% endif %}

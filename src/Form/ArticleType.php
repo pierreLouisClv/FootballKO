@@ -23,8 +23,13 @@ class ArticleType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-
-        $championship = $options['attr']['champ'];
+        $isCommonArticle = true;
+        $championship = null;
+        if($options['data']->getMentionedChamp() != null)
+        {
+            $isCommonArticle = false;
+            $championship = $options['attr']['champ'];
+        }
 
         $builder
             ->add('title', TextType::class)
@@ -38,37 +43,54 @@ class ArticleType extends AbstractType
                         ->orderBy('c.name', 'ASC');
                 },
                 'placeholder' => '-- Sélectionner une catégorie --'
-            ])
-            ->add('mentionned_club', EntityType::class, [
-                'class' => Club::class,
-                'choice_label' => 'clubName',
-                'query_builder' => function (ClubRepository $repo) use ($championship){
-                    return $repo->createQueryBuilder('c')
-                        ->andWhere('c.championship = :championship')
-                        ->setParameter(':championship', $championship)
-                        ->orderBy('c.clubName', 'ASC');
-                },
-                'placeholder' => 'Article Championnat',
-                'required' => false
-            ])
-            ->add("media", EntityType::class, [
+            ]);
+        if($isCommonArticle) {
+            $builder->add("media", EntityType::class, [
                 'class' => Media::class,
-                'choice_label' => function (Media $media) use ($championship) {
-                    $label = $championship->getChampName() . ' - ';
-                    if ($media->getAssociatedClub() !== null) {
-                        $label .= $media->getAssociatedClub()->getClubName() . ' - ';
-                    }
-                    $label .= $media->getName();
-                    return trim($label);
+                'choice_label' => function (Media $media) {
+                    return $media->getName();
                 },
-                'query_builder' => function (MediaRepository $repo) use ($championship){
+                'query_builder' => function (MediaRepository $repo) {
                     return $repo->createQueryBuilder('m')
-                        ->andWhere('m.associatedChampionship = :championship')
-                        ->setParameter(':championship', $championship)
+                        ->andWhere('m.associatedChampionship is NULL')
                         ->orderBy('m.name', 'ASC');
-                },
-                'placeholder' => '-- Sélectionner un média --'
-            ])
+                }]);
+        }
+        else
+        {
+            $builder
+                ->add('mentionned_club', EntityType::class, [
+                    'class' => Club::class,
+                    'choice_label' => 'clubName',
+                    'query_builder' => function (ClubRepository $repo) use ($championship){
+                        return $repo->createQueryBuilder('c')
+                            ->andWhere('c.championship = :championship')
+                            ->setParameter(':championship', $championship)
+                            ->orderBy('c.clubName', 'ASC');
+                    },
+                    'placeholder' => 'Article Championnat',
+                    'required' => false
+                ])
+            ->add("media", EntityType::class, [
+            'class' => Media::class,
+            'choice_label' => function (Media $media) use ($championship) {
+                $label = $championship->getChampName() . ' - ';
+                if ($media->getAssociatedClub() !== null) {
+                    $label .= $media->getAssociatedClub()->getClubName() . ' - ';
+                }
+                $label .= $media->getName();
+                return trim($label);
+            },
+            'query_builder' => function (MediaRepository $repo) use ($championship){
+                return $repo->createQueryBuilder('m')
+                    ->andWhere('m.associatedChampionship = :championship')
+                    ->setParameter(':championship', $championship)
+                    ->orderBy('m.name', 'ASC');
+            },
+            'placeholder' => '-- Sélectionner un média --'
+        ]);
+        }
+            $builder
             ->add("published_at", DateTimeType::class,[
                     'widget' => 'single_text',
                     'input' => 'datetime',

@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Championship;
 use App\Entity\InjuryArticle;
 use App\Repository\ArticleRepository;
+use App\Repository\CategoryRepository;
 use App\Repository\ChampionshipRepository;
 use App\Repository\InjuryArticleRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -17,7 +18,8 @@ class HomepageController extends AbstractController
 
     public function __construct(public InjuryArticleRepository $injuryArticleRepository,
                                 public ChampionshipRepository $championshipRepository,
-                                public ArticleRepository $articleRepository)
+                                public ArticleRepository $articleRepository,
+                                public CategoryRepository $categoryRepository)
     {
     }
 
@@ -32,12 +34,17 @@ class HomepageController extends AbstractController
     {
         $injuryArticles = new ArrayCollection();
         $champs = $this->championshipRepository->findChampsFromSeason(2022);
+        $activeChamps = $this->championshipRepository->findActiveChamps();
         /*$champs = $this->championshipRepository->findActiveChamps();*/
         $injuryArticles = $this->injuryArticleRepository->getLastInjuryArticles($champs);
         $lastArticles = $this->articleRepository->getLastArticles();
+        $category = $this->categoryRepository->findOneBy(['slug' => 'mercato']);
+        $mercatoArticles = $this->articleRepository->getMercatoTabArticles($activeChamps, $category);
+
         return $this->render('homepage/index.html.twig', [
             'controller_name' => 'HomepageController',
             'articles' => $injuryArticles,
+            'mercato_articles' => $mercatoArticles,
             'last_articles' => $lastArticles
         ]);
     }

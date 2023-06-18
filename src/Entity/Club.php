@@ -59,6 +59,19 @@ class Club
     #[ORM\Column(nullable: true)]
     private ?int $activeSeason = null;
 
+    #[ORM\OneToMany(mappedBy: 'left_club_instance', targetEntity: Signing::class)]
+    private Collection $departures;
+
+    #[ORM\OneToMany(mappedBy: 'joined_club_instance', targetEntity: Signing::class)]
+    private Collection $arrivals;
+
+    #[ORM\ManyToMany(targetEntity: Article::class, mappedBy: 'clubs')]
+    private Collection $linkedArticles;
+
+    /**
+     * @return Collection
+     */
+
     public function __construct($cityName = null, Championship $champ = null)
     {
         if ($cityName != null) {
@@ -74,6 +87,8 @@ class Club
         $this->articles = new ArrayCollection();
         $this->medias = new ArrayCollection();
         $this->externalArticles = new ArrayCollection();
+        $this->arrivals = new ArrayCollection();
+        $this->linkedArticles = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -378,5 +393,96 @@ class Club
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, Signing>
+     */
+    public function getArrivals(): Collection
+    {
+        return $this->arrivals;
+    }
+
+    public function addArrival(Signing $arrival): self
+    {
+        if (!$this->arrivals->contains($arrival)) {
+            $this->arrivals->add($arrival);
+            $arrival->setJoinedClubInstance($this);
+        }
+
+        return $this;
+    }
+
+
+    public function getDepartures(): Collection
+    {
+        return $this->departures;
+    }
+
+    /**
+     * @param Collection $departures
+     */
+    public function setDepartures(Collection $departures): void
+    {
+        $this->departures = $departures;
+    }
+
+    public function addDeparture(Signing $departure):self
+    {
+        if(!$this->departures->contains($departure))
+        {
+            $this->departures->add($departure);
+            $departure->setLeftClubInstance($this);
+        }
+
+        return $this;
+    }
+    public function removeArrival(Signing $arrival): self
+    {
+        if ($this->arrivals->removeElement($arrival)) {
+            // set the owning side to null (unless already changed)
+            if ($arrival->getJoinedClubInstance() === $this) {
+                $arrival->setJoinedClubInstance(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getPlayersSortedByName(): array
+    {
+        $players = $this->getPlayers()->toArray();
+        usort($players, function (Player $player1, Player $player2) {
+            return strcmp($player1->getLastName(), $player2->getLastName());
+        });
+        return $players;
+    }
+
+    /**
+     * @return Collection<int, Article>
+     */
+    public function getLinkedArticles(): Collection
+    {
+        return $this->linkedArticles;
+    }
+
+    public function addLinkedArticle(Article $linkedArticle): self
+    {
+        if (!$this->linkedArticles->contains($linkedArticle)) {
+            $this->linkedArticles->add($linkedArticle);
+            $linkedArticle->addClub($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLinkedArticle(Article $linkedArticle): self
+    {
+        if ($this->linkedArticles->removeElement($linkedArticle)) {
+            $linkedArticle->removeClub($this);
+        }
+
+        return $this;
+    }
+
 
 }
