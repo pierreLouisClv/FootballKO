@@ -6,6 +6,7 @@ use App\Entity\Championship;
 use App\Entity\Club;
 use App\Entity\InjuryTab;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -61,6 +62,68 @@ class ClubRepository extends ServiceEntityRepository
             ->orderBy('t.cityName')
             ->getQuery()
             ->getResult();
+    }
+
+    public function getClubsFrom(string $championship, int $season):ArrayCollection
+    {
+        switch($championship)
+        {
+            case "ligue-1" :
+                if($season == 2022)
+                {
+                    return $this->getLigue1ClubsFrom2022();
+                }
+                else
+                {
+                    return $this->getLigue1ClubsFrom2023();
+                }
+            case "premier-league" :
+                if($season == 2022)
+                {
+                    return $this->getPLClubsFrom2022();
+                }
+                else
+                {
+                    return $this->getPLClubsFrom2023();
+                }
+            case "serie-a" :
+                if($season == 2022)
+                {
+                    return $this->getSerieAClubsFrom2022();
+                }
+                else
+                {
+                    return $this->getSerieAClubsFrom2023();
+                }
+            case "laliga" :
+                if($season == 2022)
+                {
+                    return $this->getLaLigaClubsFrom2022();
+                }
+                else
+                {
+                    return $this->getLaLigaClubsFrom2023();
+                }
+
+            default :
+                return $this->getLigue1ClubsFrom2023();
+
+        }
+
+    }
+
+    public function getLigue1ClubsFrom2022():ArrayCollection
+    {
+        $clubs = new ArrayCollection();
+        foreach (['ac-ajaccio', 'angers-sco', 'aj-auxerre', 'stade-brestois-29', 'clermont-foot-63', 'rc-lens', 'lille-osc', 'fc-lorient', 'olympique-lyonnais', 'olympique-de-marseille', 'as-monaco', 'montpellier-hsc', 'fc-nantes', 'ogc-nice', 'paris-saint-germain', 'stade-de-reims', 'stade-rennais', 'rc-strasbourg', 'toulouse-fc'] as $slug)
+        {
+            $club = $this->findOneBy(['slug' => $slug]);
+            if($club != null)
+            {
+                $clubs->add($club);
+            }
+        }
+        return $clubs;
     }
 
 
