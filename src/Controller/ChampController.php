@@ -174,10 +174,11 @@ class ChampController extends AbstractController
         ]);
 
     }
-    #[Route('/injury/article/{slug}/J{day}', name: 'app_injury_article_show')]
-    public function show(Championship $champ, int $day): Response
+    #[Route('/injury/article/{slug}/{season}/J{day}', name: 'app_injury_article_show')]
+    public function show(string $slug, int $season, int $day): Response
     {
-        $article = $this->injuryArticleRepository->findOneBy(['championship' => $champ, 'day' => $day]);
+        $champ = $this->championshipRepository->findOneBy(['slug' => $slug]);
+        $article = $this->injuryArticleRepository->findOneBy(['championship' => $champ, 'day' => $day, 'season'=>$season]);
         if($article == null){
             return $this->redirectToRoute('app_homepage');
         }
@@ -194,7 +195,7 @@ class ChampController extends AbstractController
         $this->seoGeneratorProvider->get('twitter')->fromResource($twitterResource);
         $this->seoGeneratorProvider->get('og')->fromResource($ogResource);
 
-        $injuryTabs = $this->injuryTabRepository->getInjuryTabsFromChamp($champ, $article->getDay());
+        $injuryTabs = $this->injuryTabRepository->getInjuryTabsFromChamp($champ, $season, $article->getDay());
         return $this->render('injury_article/show.html.twig', [
             'article' => $article,
             'injuryTabs' => $injuryTabs,

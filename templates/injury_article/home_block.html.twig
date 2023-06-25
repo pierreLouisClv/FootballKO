@@ -7,7 +7,7 @@
             {% else %}
 
             <div class="article" style="">
-                <a href="{{ path('app_injury_article_show', {'day':article.day, 'slug':article.championship.slug}) }}">
+                <a href="{{ path('app_injury_article_show', {'day':article.day, 'slug':article.championship.slug, 'season':article.season}) }}">
                 <img class="" style=""
                      src="/uploads/{{ article.media.filename }}" alt="{{ article.media.altText }}" />
                 <div class="details pb-0 mb-0 d-flex">

@@ -33,10 +33,9 @@ class HomepageController extends AbstractController
     public function homepage(): Response
     {
         $injuryArticles = new ArrayCollection();
-        $champs = $this->championshipRepository->findChampsFromSeason(2022);
         $activeChamps = $this->championshipRepository->findActiveChamps();
         /*$champs = $this->championshipRepository->findActiveChamps();*/
-        $injuryArticles = $this->injuryArticleRepository->getLastInjuryArticles($champs);
+        $injuryArticles = $this->injuryArticleRepository->getLastInjuryArticles($activeChamps);
         $lastArticles = $this->articleRepository->getLastArticles();
         $category = $this->categoryRepository->findOneBy(['slug' => 'mercato']);
         $mercatoArticles = $this->articleRepository->getMercatoTabArticles($activeChamps, $category);
