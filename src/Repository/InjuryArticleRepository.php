@@ -49,14 +49,17 @@ class InjuryArticleRepository extends ServiceEntityRepository
     public function getLastInjuryArticles(ArrayCollection $champs): ArrayCollection{
         $injuryArticles = new ArrayCollection();
         foreach($champs as $champ){
-            $currentChampDay = $champ->getCurrentDay();
-            if($currentChampDay == 0)
+            $day = $champ->getCurrentDay();
+            $lastSeason = 0;
+            if($day == 0)
             {
-
+                $day = 38;
+                $lastSeason = 1;
             }
-            $injuryArticle = $this->findOneBy(['championship' => $champ, 'day'=>$currentChampDay]);
+            $season = $champ->getSeason() - $lastSeason;
+            $injuryArticle = $this->findOneBy(['championship' => $champ, 'day'=>$day, 'season' => $season]);
             if($injuryArticle == null){
-                $injuryArticle = $this->findOneBy(['championship' => $champ, 'day'=>$currentChampDay - 1]);
+                $injuryArticle = $this->findOneBy(['championship' => $champ, 'day'=>$day - 1, 'season' => $season]);
             }
             $injuryArticles->add($injuryArticle);
         }

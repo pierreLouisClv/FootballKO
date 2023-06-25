@@ -126,6 +126,48 @@ class ClubRepository extends ServiceEntityRepository
         return $clubs;
     }
 
+    public function getPLClubsFrom2022():ArrayCollection
+    {
+        $clubs = new ArrayCollection();
+        foreach (['arsenal-fc', 'aston-villa-fc', 'afc-bournemouth', 'brentford-fc', 'brighton-and-hove-albion', 'chelsea-fc', 'crystal-palace-fc', 'everton fc', 'leeds-united', 'leicester-fc', 'liverpool-fc', 'manchester-city-fc', 'manchester united', 'newcastle-united', 'nottingham-forest-fc', 'sheffield-united-fc', 'southampton-fc', 'tottenham', 'west-ham', 'wolves'] as $slug)
+        {
+            $club = $this->findOneBy(['slug' => $slug]);
+            if($club != null)
+            {
+                $clubs->add($club);
+            }
+        }
+        return $clubs;
+    }
+
+    public function getSerieAClubsFrom2022():ArrayCollection
+    {
+        $clubs = new ArrayCollection();
+        foreach (['atalanta-bergamasca', 'bologna-fc-1909', 'us-cremonese', 'empoli-fc', 'fiorentina-acf', 'hellas-verona-fc', 'internazionale-fc', 'juventus-fc', 'ss-lazio', 'ac-milan', 'ac-monza', 'napoli-societa', 'roma-as', 'us-salernitana', 'sampdoria-uc', 'sassuolo-calcio-us', 'spezia-calcio', 'torino-fc', 'udinese-calcio', 'us-lecce'] as $slug)
+        {
+            $club = $this->findOneBy(['slug' => $slug]);
+            if($club != null)
+            {
+                $clubs->add($club);
+            }
+        }
+        return $clubs;
+    }
+
+    public function getLaLigaClubsFrom2022():ArrayCollection
+    {
+        $clubs = new ArrayCollection();
+        foreach (['almeria', 'athletic-bilbao', 'atletico-madrid', 'fc-barcelone', 'betis-seville', 'cadiz-cf', 'celta-de-vigo', 'elche-cf', 'rcd-espanyol', 'getafe-fc', 'girona-fc', 'rcd-mallorca', 'ca-osasuna', 'rayo-vallecano', 'real-madrid-cf', 'real-sociedad', 'sevilla-fc', 'valencia-cf', 'real-valladolid-cf', 'villarreal-cf'] as $slug)
+        {
+            $club = $this->findOneBy(['slug' => $slug]);
+            if($club != null)
+            {
+                $clubs->add($club);
+            }
+        }
+        return $clubs;
+    }
+
 
 
 //    /**
