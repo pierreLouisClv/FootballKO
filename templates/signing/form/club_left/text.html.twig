@@ -1,0 +1,6 @@
+<label for="left_club_name">Si le club n'est pas dans le top 5 européen, entrez son nom</label>
+{% if signing.getLeftClub() is null %}
+<input type="text" id="left_club_name" name="left_club_name">
+{% else %}
+<input value="{{ signing.getLeftClub() }}" type="text" id="left_club_name" name="left_club_name">
+{% endif %}

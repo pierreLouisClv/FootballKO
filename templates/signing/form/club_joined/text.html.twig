@@ -1,0 +1,6 @@
+<label for="joined_club_name">Si le club n'est pas dans le top 5 européen, entrez son nom</label>
+{% if signing.getJoinedClub() is null %}
+<input type="text" id="joined_club_name" name="joined_club_name">
+{% else %}
+<input value="{{ signing.getJoinedClub() }}" type="text" id="joined_club_name" name="joined_club_name">
+{% endif %}

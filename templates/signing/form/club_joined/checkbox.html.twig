@@ -1,0 +1,6 @@
+<label for="is_club_joined">Cocher cette case si aucun club n'a été rejoint</label>
+{% if signing.getJoinedClubInstance() is null and signing.getJoinedClub() is null %}
+    <input type="checkbox" value="true" id="is_club_joined" name="is_club_joined" checked>
+{% else %}
+<input type="checkbox" value="true" id="is_club_joined" name="is_club_joined">
+{% endif %}

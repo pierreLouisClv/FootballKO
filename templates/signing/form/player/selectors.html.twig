@@ -1,0 +1,20 @@
+
+<label for="championship_player">Championnat </label>
+<select id="championship_player" name="championship_player">
+    <option value="">Sélectionne un championnat</option>
+    {% for championship in championships %}
+        <option value="{{ championship.slug }}">{{ championship.getChampName() }}</option>
+    {% endfor %}
+</select>
+
+<label for="club_player">Club </label>
+<select id="club_player" name="club_player">
+    <option value="">Sélectionne un club</option>
+
+</select>
+
+<label for="player">Joueur </label>
+<select id="player" name="player">
+    <option value="">Sélectionne un joueur</option>
+
+</select>

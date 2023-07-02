@@ -34,7 +34,7 @@ $(document).ready(function() {
 
         // Effectuer une requête AJAX pour récupérer les clubs en fonction du championnat sélectionné
         $.ajax({
-            url: '/signing/add/championship_selected', // L'URL doit être adaptée à ton contrôleur
+            url: '/signing/add/championship_selected',
             method: 'GET',
             data: { championshipSlug: championship_club_left_slug },
             success: function(response) {
@@ -46,14 +46,15 @@ $(document).ready(function() {
 
     $('#championship_club_joined').on('change', function() {
         var championship_club_joined_slug = $(this).val();
-
+        console.log(championship_club_joined_slug);
         // Effectuer une requête AJAX pour récupérer les clubs en fonction du championnat sélectionné
         $.ajax({
             url: '/signing/add/championship_selected', // L'URL doit être adaptée à ton contrôleur
             method: 'GET',
             data: { championshipSlug: championship_club_joined_slug },
             success: function(response) {
-                // Mettre à jour les options du sélecteur de clubs
+                // Mettre à jour les options du sélecteur de
+                console.log(response);
                 $('#club_joined').html(response);
             }
         });

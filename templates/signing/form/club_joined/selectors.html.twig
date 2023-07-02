@@ -1,0 +1,26 @@
+<label for="championship_club_joined">Championnat </label>
+<select id="championship_club_joined" name="championship_club_joined">
+    <option value="">Sélectionne un championnat</option>
+    {% for championship in championships %}
+        {% if signing.getJoinedClubInstance() is not null and championship == signing.getJoinedClubInstance().championship %}
+        <option value="{{ championship.slug }}" selected>{{ championship.getChampName() }}</option>
+        {% else %}
+        <option value="{{ championship.slug }}">{{ championship.getChampName() }}</option>
+        {% endif %}
+    {% endfor %}
+</select>
+
+<label for="club_joined">Club </label>
+<select id="club_joined" name="club_joined">
+    <option value="">Sélectionne un club</option>
+    {% if signing.getJoinedClubInstance() is null %}
+        {% else %}
+        {% for club in signing.getJoinedClubInstance().championship.getClubsSortedByName() %}
+            {% if club == signing.getJoinedClubInstance() %}
+            <option value="{{ club.slug }}" selected>{{ club.getClubName() }}</option>
+            {% else %}
+                <option value="{{ club.slug }}">{{ club.getClubName() }}</option>
+                {% endif %}
+        {% endfor %}
+    {% endif %}
+</select>
