@@ -1,0 +1,183 @@
+<head>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{{ asset('js/form.js')}}" rel="javascript"></script>
+</head>
+
+<body>
+{% if modify == true %}
+<h1>Modifier la signature de {{ signing.getPlayerInstance().getFullName() }}</h1>
+{% endif %}
+
+<form action="{{ path('app_signing_handle', {'id':id}) }}" method="post">
+    {% if modify == false %}
+
+        <!-- JOUEUR -->
+        <h3>Joueur</h3>
+        <!-- SELECTEUR CHAMPIONNAT -->
+        <label for="championship_player">Championnat </label>
+        <select id="championship_player" name="championship_player">
+            <option value="">Sélectionne un championnat</option>
+            {% for championship in championships %}
+                <option value="{{ championship.slug }}">{{ championship.getChampName() }}</option>
+            {% endfor %}
+        </select>
+        <!-- SELECTEUR CLUB -->
+        <label for="club_player">Club </label>
+        <select id="club_player" name="club_player">
+            <option value="">Sélectionne un club</option>
+        </select>
+        <!-- SELECTEUR JOUEUR -->
+        <label for="player">Joueur </label>
+        <select id="player" name="player">
+            <option value="">Sélectionne un joueur</option>
+        </select>
+        <br>
+        <!-- TEXT -->
+        <p>Si le joueur n'existe pas :<p>
+        <label for="player_first_name">Prénom</label>
+        <input type="text" id="player_first_name" name="player_first_name">
+        <label for="player_last_name">Nom</label>
+        <input type="text" id="player_last_name" name="player_last_name">
+        <br>
+    {% endif %}
+
+    <!-- CLUB QUITTE -->
+
+    <h3>Club quitté</h3>
+    <!-- CHECKBOX -->
+    <label for="is_club_left">Cocher cette case si aucun club n'a été quitté</label>
+    {% if signing.getLeftClubInstance() is null and signing.getLeftClub() is null %}
+        <input type="checkbox" value="true" id="is_club_left" name="is_club_left" checked>
+    {% else %}
+        <input type="checkbox" value="true" id="is_club_left" name="is_club_left">
+    {% endif %}
+    <br>
+    <!-- SELECTEUR CHAMPIONNAT -->
+    <label for="championship_club_left">Championnat </label>
+    <select id="championship_club_left" name="championship_club_left">
+        <option value="">Sélectionne un championnat</option>
+        {% for championship in championships %}
+            {% if signing.getLeftClubInstance() is not null and championship == signing.getLeftClubInstance().championship %}
+                <option value="{{ championship.slug }}" selected>{{ championship.getChampName() }}</option>
+            {% else %}
+                <option value="{{ championship.slug }}">{{ championship.getChampName() }}</option>
+            {% endif %}
+        {% endfor %}
+    </select>
+    <!-- SELECTEUR CLUB -->
+    <label for="club_left">Club </label>
+    <select id="club_left" name="club_left">
+        <option value="">Sélectionne un club</option>
+        {% if signing.getLeftClubInstance() is null %}
+        {% else %}
+            {% for club in signing.getLeftClubInstance().championship.getClubsSortedByName() %}
+                {% if club == signing.getLeftClubInstance() %}
+                    <option value="{{ club.slug }}" selected>{{ club.getClubName() }}</option>
+                {% else %}
+                    <option value="{{ club.slug }}">{{ club.getClubName() }}</option>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+    </select>
+    <br>
+    <!-- TEXT -->
+    <label for="left_club_name">Si le club n'est pas dans le top 5 européen, entrez son nom</label>
+    {% if signing.getLeftClub() is null %}
+        <input type="text" id="left_club_name" name="left_club_name">
+    {% else %}
+        <input value="{{ signing.getLeftClub() }}" type="text" id="left_club_name" name="left_club_name">
+    {% endif %}
+
+    <!-- CLUB REJOINT -->
+
+    <h3>Club rejoint</h3>
+    <!-- CHECKBOX -->
+    <label for="is_club_joined">Cocher cette case si aucun club n'a été rejoint</label>
+    {% if signing.getJoinedClubInstance() is null and signing.getJoinedClub() is null %}
+        <input type="checkbox" value="true" id="is_club_joined" name="is_club_joined" checked>
+    {% else %}
+        <input type="checkbox" value="true" id="is_club_joined" name="is_club_joined">
+    {% endif %}
+    <br>
+    <!-- SELECTEUR CHAMPIONNAT -->
+    <label for="championship_club_joined">Championnat </label>
+    <select id="championship_club_joined" name="championship_club_joined">
+        <option value="">Sélectionne un championnat</option>
+        {% for championship in championships %}
+            {% if signing.getJoinedClubInstance() is not null and championship == signing.getJoinedClubInstance().championship %}
+                <option value="{{ championship.slug }}" selected>{{ championship.getChampName() }}</option>
+            {% else %}
+                <option value="{{ championship.slug }}">{{ championship.getChampName() }}</option>
+            {% endif %}
+        {% endfor %}
+    </select>
+    <br>
+    <!-- SELECTEUR CLUB -->
+    <label for="club_joined">Club </label>
+    <select id="club_joined" name="club_joined">
+        <option value="">Sélectionne un club</option>
+        {% if signing.getJoinedClubInstance() is null %}
+        {% else %}
+            {% for club in signing.getJoinedClubInstance().championship.getClubsSortedByName() %}
+                {% if club == signing.getJoinedClubInstance() %}
+                    <option value="{{ club.slug }}" selected>{{ club.getClubName() }}</option>
+                {% else %}
+                    <option value="{{ club.slug }}">{{ club.getClubName() }}</option>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+    </select>
+    <br>
+    <!-- TEXT -->
+    <label for="joined_club_name">Si le club n'est pas dans le top 5 européen, entrez son nom</label>
+    {% if signing.getJoinedClub() is null %}
+        <input type="text" id="joined_club_name" name="joined_club_name">
+    {% else %}
+        <input value="{{ signing.getJoinedClub() }}" type="text" id="joined_club_name" name="joined_club_name">
+    {% endif %}
+    <br>
+
+    <!-- TYPE -->
+
+    <h3>Type</h3>
+    <label for="type">Choisir un type de transfert</label><br>
+    {% if signing.type == 'transfer' or signing.type is null%}
+        <input type="radio" name="type" value="transfer" checked>Transfert
+    {% else %}
+        <input type="radio" name="type" value="transfer">Transfert
+    {% endif %}
+    {% if signing.type == 'loan'%}
+        <input type="radio" name="type" value="loan" checked>Prêt
+    {% else %}
+        <input type="radio" name="type" value="loan">Prêt
+    {% endif %}
+    {% if signing.type == 'free_agent' %}
+        <input type="radio" name="type" value="free_agent" checked>Agent libre
+    {% else %}
+        <input type="radio" name="type" value="free_agent">Agent libre
+    {% endif %}
+    {% if signing.type == 'first_contract' %}
+        <input type="radio" name="type" value="first_contract" checked>Premier contrat pro
+    {% else %}
+        <input type="radio" name="type" value="first_contract">Premier contrat pro
+    {% endif %}
+    {% if signing.type == 'end_of_contract' %}
+        <input type="radio" name="type" value="end_of_contract" checked>Fin de contrat
+    {% else %}
+        <input type="radio" name="type" value="end_of_contract">Fin de contrat
+    {% endif %}    <br>
+
+    <!-- AMOUNT -->
+
+    <h3>Optionnel</h3>
+    <label for="amount">Montant du transfert :</label>
+    {% if signing.getTransferAmount() is null %}
+        <input type="number" name="amount" id="amount"> millions d'euros
+    {% else %}
+        <input value="{{ signing.getTransferAmount() }}" type="number" name="amount" id="amount"> millions d'euros
+    {% endif %}
+    <input type="submit" value="Enregistrer">
+    <br>
+</form>
+</body>
+

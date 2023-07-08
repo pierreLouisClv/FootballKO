@@ -1,0 +1,9 @@
+<label for="amount">Montant du transfert :</label>
+
+{% if signing.getTransferAmount() is null %}
+<input type="number" name="amount" id="amount"> millions d'euros
+{% else %}
+<input value="{{ signing.getTransferAmount() }}" type="number" name="amount" id="amount"> millions d'euros
+{% endif %}
+
+<input type="submit" value="Enregistrer">

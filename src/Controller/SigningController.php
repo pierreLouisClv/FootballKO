@@ -8,6 +8,7 @@ use App\Entity\Signing;
 use App\Repository\ChampionshipRepository;
 use App\Repository\ClubRepository;
 use App\Repository\PlayerRepository;
+use App\Repository\SigningRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,7 +20,8 @@ class SigningController extends AbstractController {
         public ChampionshipRepository $championshipRepository,
         public ClubRepository $clubRepository,
         public PlayerRepository $playerRepository,
-        public EntityManagerInterface $entityManager
+        public EntityManagerInterface $entityManager,
+        public SigningRepository $signingRepository
     )
     {
     }
@@ -33,9 +35,30 @@ class SigningController extends AbstractController {
         }
 
         $champs = $lastSeasonChamps = $this->championshipRepository->findActiveChamps();
-        return $this->render('form/add_signing.html.twig',
+        return $this->render('signing/add_signing.html.twig',
             [
-                'championships' => $champs
+                'championships' => $champs,
+                'modify' => false,
+                'id' => 0,
+                'signing' => new Signing()
+        ]);
+    }
+
+    #[Route('signing/update/{id}', name: 'app_signing_update')]
+    public function updateSigning(Signing $signing)
+    {
+        $connectedUser = $this->getUser();
+        if($connectedUser == null || in_array("'ROLE_ADMIN'", $connectedUser->getRoles())){
+            return $this->redirectToRoute('app_homepage');
+        }
+
+        $champs = $lastSeasonChamps = $this->championshipRepository->findActiveChamps();
+        return $this->render('signing/add_signing.html.twig',
+            [
+                'championships' => $champs,
+                'modify' => true,
+                'signing' => $signing,
+                'id' => $signing->getId()
             ]);
     }
 
@@ -67,44 +90,61 @@ class SigningController extends AbstractController {
         return new Response($htmlOptions);
     }
 
-    #[Route('signing/handle', name:'app_signing_handle')]
-    public function handleSigning(Request $request)
+    #[Route('signing/handle/{id}', name:'app_signing_handle')]
+    public function handleSigningAdding(Request $request, int $id)
     {
-        $signing = new Signing();
-
-        // PLAYER
-        $playerId = $request->request->get('player');
-        $player = new Player();
-        if($playerId!=null && $playerId != "")
+        if($id == 0)
         {
-            $player = $this->playerRepository->findOneBy(['id' => $playerId]);
+            $signing = new Signing();
         }
         else
         {
-            $firstName = $request->request->get('player_first_name');
-            $firstName == null ? : $player->setFirstName($firstName);
-            $lastName = $request->request->get('player_last_name');
-            $lastName == null ? : $player->setLastName($lastName);
-            $this->entityManager->persist($player);
+            $signing = $this->signingRepository->findOneBy(['id' => $id]);
         }
-        $signing->setPlayerInstance($player);
+
+        if($id == 0)
+        {
+            //PLAYER
+            $playerId = $request->request->get('player');
+            $player = new Player();
+            if($playerId!=null && $playerId != "")
+            {
+                $player = $this->playerRepository->findOneBy(['id' => $playerId]);
+            }
+            else
+            {
+                $firstName = $request->request->get('player_first_name');
+                $firstName == null ? : $player->setFirstName($firstName);
+                $lastName = $request->request->get('player_last_name');
+                $lastName == null ? : $player->setLastName($lastName);
+                $this->entityManager->persist($player);
+            }
+            $signing->setPlayerInstance($player);
+        }
 
         // LEFT CLUB
         $leftClubSlug = $request->request->get('club_left');
         $isClubLeft = $request->request->get('is_club_left');
         if($isClubLeft == "true")
         {
-
+            $signing->setLeftClub(null);
+            $signing->setLeftClubInstance(null);
         }
         else if($leftClubSlug != null && $leftClubSlug != "")
         {
             $club = $this->clubRepository->findOneBy(['slug' => $leftClubSlug]);
-            $signing->setLeftClubInstance($club);
+            if($signing->getLeftClubInstance() !== $club)
+            {
+                $signing->setLeftClubInstance($club);
+            }
         }
         else
         {
             $clubName = $request->request->get('left_club_name');
-            $signing->setLeftClub($clubName);
+            if($signing->getLeftClub() != $clubName)
+            {
+                $signing->setLeftClub($clubName);
+            }
         }
 
         //JOINED CLUB
@@ -112,33 +152,66 @@ class SigningController extends AbstractController {
         $isClubJoined = $request->request->get('is_club_joined');
         if($isClubJoined == "true")
         {
+            $signing->setJoinedClubInstance(null);
+            $signing->setJoinedClub(null);
         }
         else if($joinedClubSlug != null && $joinedClubSlug != "")
         {
             $club = $this->clubRepository->findOneBy(['slug' => $joinedClubSlug]);
-            $signing->setJoinedClubInstance($club);
-            $player->setClub($club);
+            if($signing->getJoinedClub() !== $club)
+            {
+                $signing->setJoinedClubInstance($club);
+                if($id == 0)
+                {
+                    $player->setClub($club);
+                }
+                else
+                {
+                    $signing->getPlayerInstance()->setClub($club);
+                }
+            }
+
         }
         else
         {
             $clubName = $request->request->get('joined_club_name');
-            $signing->setJoinedClub($clubName);
+            if($signing->getJoinedClub() != $clubName)
+            {
+                $signing->setJoinedClub($clubName);
+            }
         }
 
         //TYPE
         $type = $request->request->get('type');
-        $signing->setType($type);
+        if($signing->getType() != $type)
+        {
+            $signing->setType($type);
+        }
 
         //AMOUNT
         $amount = $request->request->get('amount');
         if($amount != null && $amount != "")
         {
-            $signing->setTransferAmount($amount);
+            if($signing->getTransferAmount() != $amount)
+            {
+                $signing->setTransferAmount($amount);
+            }
         }
-        $signing->setSeason(2023);
-        $this->entityManager->persist($signing);
+        if($id == 0)
+        {
+            $signing->setSeason(2023);
+            $this->entityManager->persist($signing);
+        }
         $this->entityManager->flush();
 
-        return $this->redirectToRoute('app_custom_homepage');
+        if ($signing->getPlayerInstance()->getClub() != null)
+        {
+            return $this->redirectToRoute('app_mercato_article_show', ['season'=>2023, 'slug'=>$signing->getPlayerInstance()->getClub()->getChampionship()->getSlug()]);
+        }
+        else
+        {
+            return $this->redirectToRoute('app_mercato_article_show', ['season'=>2023, 'slug'=>$signing->getLeftClubInstance()->getChampionship()->getSlug()]);
+        }
+
     }
 }

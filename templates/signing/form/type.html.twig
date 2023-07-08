@@ -1,0 +1,31 @@
+<label for="type">Choisir un type de transfert</label><br>
+
+{% if signing.type == 'transfer' or signing.type is null%}
+    <input type="radio" name="type" value="transfer" checked>Transfert
+{% else %}
+    <input type="radio" name="type" value="transfer">Transfert
+{% endif %}
+
+{% if signing.type == 'loan'%}
+    <input type="radio" name="type" value="loan" checked>Prêt
+{% else %}
+    <input type="radio" name="type" value="loan">Prêt
+{% endif %}
+
+{% if signing.type == 'free_agent' %}
+    <input type="radio" name="type" value="free_agent" checked>Agent libre
+{% else %}
+    <input type="radio" name="type" value="free_agent">Agent libre
+{% endif %}
+
+{% if signing.type == 'first_contract' %}
+    <input type="radio" name="type" value="first_contract" checked>Premier contrat pro
+{% else %}
+    <input type="radio" name="type" value="first_contract">Premier contrat pro
+{% endif %}
+
+{% if signing.type == 'end_of_contract' %}
+    <input type="radio" name="type" value="end_of_contract" checked>Fin de contrat
+{% else %}
+    <input type="radio" name="type" value="end_of_contract">Fin de contrat
+{% endif %}

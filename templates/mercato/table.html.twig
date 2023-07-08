@@ -13,6 +13,9 @@
                     <tr>
                         <td>
                             {% include 'mercato/row/player_name.html.twig' %} {% include 'mercato/row/left_club.html.twig' %}
+                            {% if modify == true %}
+                                {% include 'mercato/row/update_button.html.twig' %}
+                            {% endif %}
                         </td>
                     </tr>
                 {% endfor %}
@@ -32,6 +35,9 @@
                     <tr>
                         <td>
                             {% include 'mercato/row/player_name.html.twig' %} {% include 'mercato/row/joined_club.html.twig' %}
+                            {% if modify == true %}
+                                {% include 'mercato/row/update_button.html.twig' %}
+                            {% endif %}
                         </td>
                     </tr>
                 {% endfor %}
