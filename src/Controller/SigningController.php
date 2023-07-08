@@ -152,8 +152,8 @@ class SigningController extends AbstractController {
         $isClubJoined = $request->request->get('is_club_joined');
         if($isClubJoined == "true")
         {
-            $signing->setLeftClubInstance(null);
-            $signing->setLeftClub(null);
+            $signing->setJoinedClubInstance(null);
+            $signing->setJoinedClub(null);
         }
         else if($joinedClubSlug != null && $joinedClubSlug != "")
         {
@@ -204,6 +204,14 @@ class SigningController extends AbstractController {
         }
         $this->entityManager->flush();
 
-        return $this->redirectToRoute('app_custom_homepage');
+        if ($signing->getPlayerInstance()->getClub() != null)
+        {
+            return $this->redirectToRoute('app_mercato_article_show', ['season'=>2023, 'slug'=>$signing->getPlayerInstance()->getClub()->getChampionship()->getSlug()]);
+        }
+        else
+        {
+            return $this->redirectToRoute('app_mercato_article_show', ['season'=>2023, 'slug'=>$signing->getLeftClubInstance()->getChampionship()->getSlug()]);
+        }
+
     }
 }

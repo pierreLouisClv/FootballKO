@@ -45,7 +45,7 @@
 
     <h3>Club quitté</h3>
     <!-- CHECKBOX -->
-    <label for="is_club_left">Cocher cette case si aucun club n'a été rejoint</label>
+    <label for="is_club_left">Cocher cette case si aucun club n'a été quitté</label>
     {% if signing.getLeftClubInstance() is null and signing.getLeftClub() is null %}
         <input type="checkbox" value="true" id="is_club_left" name="is_club_left" checked>
     {% else %}

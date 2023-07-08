@@ -210,6 +210,12 @@ class ChampController extends AbstractController
     #[Route('/mercato/article/show/{slug}/{season}', name: 'app_mercato_article_show')]
     public function showMercatoArticle(string $slug, int $season):Response
     {
+        $modify = true;
+        $connectedUser = $this->getUser();
+        if($connectedUser == null || in_array("'ROLE_ADMIN'", $connectedUser->getRoles())){
+            $modify = false;
+        }
+
         $championship = $this->championshipRepository->findOneBy(['slug'=>$slug]);
         $category = $this->categoryRepository->findOneBy(['slug'=>'mercato']);
         $article = $this->articleRepository->findOneBy(['mentioned_champ' => $championship, 'category' => $category]);
@@ -230,7 +236,8 @@ class ChampController extends AbstractController
         return $this->render('mercato/mercato_article.html.twig', [
             'article' => $article,
             'clubs' => $championship->getClubsSortedByName(),
-            'last_articles' => $lastArticles
+            'last_articles' => $lastArticles,
+            'modify' => $modify
         ]);
     }
 
