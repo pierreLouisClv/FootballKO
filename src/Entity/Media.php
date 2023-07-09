@@ -59,6 +59,18 @@ class Media
         return $this;
     }
 
+    public function getSize(): int
+    {
+        $image_url = 'https://footballko.com/uploads/' . $this->filename;
+        $image_path = realpath($image_url);
+        if ($image_path !== false) {
+            return filesize($image_path);
+        } else {
+            return 140000;
+        }
+    }
+
+
     public function getAltText(): ?string
     {
         return $this->altText;
