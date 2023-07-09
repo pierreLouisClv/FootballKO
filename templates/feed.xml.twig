@@ -1,35 +1,39 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<rss version="2.0">
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
 
     <channel>
         <title>FootballKO</title>
         <link>https://footballko.com</link>
         <description>FootballKO recense les joueurs absents dans quatre grands championnats d'Europe, Ligue 1, Premier League, Liga et Premier League.</description>
         <language>fr-FR</language>
-
+        <atom:link href="https://footballko.com/feed" rel="self" type="application/rss+xml" />
 
         {% for article in mercato_articles %}
 
             <item>
                 <title>{{ article.title }}</title>
-                <url>https://footballko.com/article/{{ article.getSlug() }}</url>
-                <publication_date>{{ article.publishedAt|date }}</publication_date>
+                <link>https://footballko.com/article/{{ article.getSlug() }}</link>
+                <pubDate>{{ article.publishedAt|date }}</pubDate>
                 <enclosure url="https://footballko.com/uploads/{{ article.media.filename }}"
-                           type="image/jpg" />
+                           type="image/jpg"
+                            length="{{ article.media.getSize() }}"/>
                 <category>mercato</category>
                 <description>{{ article.introduction }}</description>
+                <guid>{{ article.getSlug() }}</guid>
             </item>
         {% endfor %}
 
         {% for article in injury_articles %}
             <item>
                 <title>{{ article.title }}</title>
-                <url>https://footballko.com/injury/article/{{ article.getChampionship().getSlug() }}/J{{ article.day }}</url>
-                <publication_date>{{ article.publishedAt|date }}</publication_date>
+                <link>https://footballko.com/injury/article/{{ article.getChampionship().getSlug() }}/J{{ article.day }}</link>
+                <pubDate>{{ article.publishedAt|date }}</pubDate>
                 <enclosure url="https://footballko.com/uploads/{{ article.media.filename }}"
-                           type="image/jpg" />
+                           type="image/jpg"
+                           length="{{ article.media.getSize() }}"/>
                 <category>tableaux</category>
                 <description>{{ article.introduction }}</description>
+                <guid>{{ article.getSlug() }}</guid>
             </item>
         {% endfor %}
 
@@ -37,12 +41,14 @@
 
             <item>
                 <title>{{ article.title }}</title>
-                <url>https://footballko.com/article/{{ article.getSlug() }}</url>
-                <publication_date>{{ article.publishedAt|date }}</publication_date>
+                <link>https://footballko.com/article/{{ article.getSlug() }}</link>
+                <pubDate>{{ article.publishedAt|date }}</pubDate>
                 <enclosure url="https://footballko.com/uploads/{{ article.media.filename }}"
-                           type="image/jpg" />
+                           type="image/jpg"
+                           length="{{ article.media.getSize() }}"/>
                 <category>{{ article.category }}</category>
                 <description>{{ article.introduction }}</description>
+                <guid>{{ article.getSlug() }}</guid>
             </item>
         {% endfor %}
     </channel>
