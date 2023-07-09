@@ -24,7 +24,7 @@ class FeedController extends AbstractController {
     #[Route('/feed', name:'app_feed')]
     public function feed():Response
     {
-        $champs = $this->championshipRepository->findChampsFromSeason(2022);
+        $champs = $this->championshipRepository->findChampsFromSeason(2023);
         $activeChamps = $this->championshipRepository->findActiveChamps();
         /*$champs = $this->championshipRepository->findActiveChamps();*/
         $injuryArticles = $this->injuryArticleRepository->getLastInjuryArticles($champs);
@@ -32,7 +32,7 @@ class FeedController extends AbstractController {
         $category = $this->categoryRepository->findOneBy(['slug' => 'mercato']);
         $mercatoArticles = $this->articleRepository->getMercatoTabArticles($activeChamps, $category);
 
-        return $this->render('feed.txt.twig', [
+        return $this->render('feed.xml.twig', [
             'injury_articles' => $injuryArticles,
             'mercato_articles' => $mercatoArticles,
             'last_articles' => $lastArticles

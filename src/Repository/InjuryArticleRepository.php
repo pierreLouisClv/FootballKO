@@ -60,6 +60,10 @@ class InjuryArticleRepository extends ServiceEntityRepository
             $injuryArticle = $this->findOneBy(['championship' => $champ, 'day'=>$day, 'season' => $season]);
             if($injuryArticle == null){
                 $injuryArticle = $this->findOneBy(['championship' => $champ, 'day'=>$day - 1, 'season' => $season]);
+                if($injuryArticle == null)
+                {
+                    continue;
+                }
             }
             $injuryArticles->add($injuryArticle);
         }
