@@ -6,6 +6,7 @@ use App\Repository\ArticleRepository;
 use App\Repository\CategoryRepository;
 use App\Repository\ChampionshipRepository;
 use App\Repository\InjuryArticleRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Eko\FeedBundle\Feed\FeedManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -27,15 +28,29 @@ class FeedController extends AbstractController {
         $champs = $this->championshipRepository->findChampsFromSeason(2023);
         $activeChamps = $this->championshipRepository->findActiveChamps();
         /*$champs = $this->championshipRepository->findActiveChamps();*/
+
         $injuryArticles = $this->injuryArticleRepository->getLastInjuryArticles($champs);
-        $lastArticles = $this->articleRepository->getLastArticles();
         $category = $this->categoryRepository->findOneBy(['slug' => 'mercato']);
         $mercatoArticles = $this->articleRepository->getMercatoTabArticles($activeChamps, $category);
+        $removedArticlesSlug = new ArrayCollection();
+
+        $lastArticles = new ArrayCollection($this->articleRepository->getLastArticles());
+        $articles = new ArrayCollection();
+
+        foreach ($lastArticles as $article)
+        {
+            if (!($mercatoArticles->contains($article)))
+            {
+                $articles->add($article);
+            }
+
+        }
+
 
         return $this->render('feed.xml.twig', [
             'injury_articles' => $injuryArticles,
             'mercato_articles' => $mercatoArticles,
-            'last_articles' => $lastArticles
+            'last_articles' => $articles
         ]);
     }
 }
