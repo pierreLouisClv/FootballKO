@@ -29,6 +29,8 @@
                     {% endblock %}
                     <img class="mb-3" style="max-width:90%"
                          src="/uploads/{{ article.media.filename }}" alt="{{ article.media.altText }}" />
+                    {% include 'ad/article.html.twig' %}
+
                     <div style="font-family: Rubik, sans-serif">
                         {{ article.content|raw }}</div>
                 </div>

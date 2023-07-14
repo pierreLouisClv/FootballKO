@@ -1,0 +1,125 @@
+/* main style */
+
+.akcelo-wrapper {
+    display: grid;
+    place-items: center;
+    grid-template-columns: 1fr;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+.akcelo-wrapper.akcelo-wrapper-label:before {
+    content: attr(data-ad-text);
+    color: #777777;
+    font-size: 11px;
+    text-align: center;
+    position: absolute;
+    width: 100%;
+    top: 2px;
+}
+.akcelo-wrapper.akcelo-wrapper-label {
+    box-sizing: content-box;
+    padding: 20px 0 0;
+}
+.akcelo-placeholder:not(.akcelo-loaded) {
+    background-color: #f9f9f9;
+    background-clip: content-box;
+}
+.akcelo-placeholder:not(.akcelo-loaded)::after {
+    border: 1px solid #696969;
+    border-radius: 2px;
+    color: #696969;
+    content: attr(data-placeholder-text);
+    font-size: 11px;
+    line-height: 1;
+    padding: 3px 4px 1px;
+    position: absolute;
+    background-color: transparent;
+    font-family: Arial,sans-serif;
+}
+.akcelo-video > div:first-child {
+    width: 100%;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0
+}
+.akcelo-video.akcelo-wrapper-label > div:first-child {
+    top: 20px;
+}
+@media (pointer:coarse) {
+    .akcelo-wrapper.akcelo-desktop {
+        display: none;
+    }
+}
+@media (pointer:fine) {
+    .akcelo-wrapper.akcelo-mobile {
+        display: none;
+    }
+}
+
+/* Tag Display ATF3 728x90 (id: Footballko_ATF3_728x90) */
+
+.akcelo-adunit-8178 {
+    width:100%;
+    height:90px;
+}
+@media (pointer:coarse) {
+    .akcelo-adunit-8178 {
+        width:100%;
+        height:250px;
+    }
+}
+
+/* Tag Display ATF 300x600 (id: Footballko_ATF_300x600) */
+
+.akcelo-adunit-8176 {
+    width:100%;
+    height:600px;
+}
+@media (pointer:coarse) {
+    .akcelo-adunit-8176 {
+        width:100%;
+        height:250px;
+    }
+}
+
+/* Tag Display ATF 728x90 (id: Footballko_ATF_728x90) */
+
+.akcelo-adunit-8164 {
+    width:100%;
+    height:90px;
+}
+@media (pointer:coarse) {
+    .akcelo-adunit-8164 {
+        width:100%;
+        height:100px;
+    }
+}
+
+/* Tag Display BTF 300x600 (id: Footballko_BTF_300x600) */
+
+.akcelo-adunit-8180 {
+    width:100%;
+    height:600px;
+}
+@media (pointer:coarse) {
+    .akcelo-adunit-8180 {
+        width:100%;
+        height:250px;
+    }
+}
+
+/* Tag Display Footballko_Incontent (id: Footballko_Incontent) */
+
+.akcelo-adunit-8174 {
+    width:100%;
+    height:400px;
+}
+@media (pointer:coarse) {
+    .akcelo-adunit-8174 {
+        width:100%;
+        height:280px;
+    }
+}
