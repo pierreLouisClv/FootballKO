@@ -13,22 +13,11 @@
         </script>
 
         <!-- BEGIN IAB STUB FOR CMP -->
-        <script type="text/javascript">
-            "use strict";!function(){var e=function(){var e,t="__tcfapiLocator",a=[],n=window;for(;n;){try{if(n.frames[t]){e=n;break}}catch(e){}if(n===window.top)break;n=n.parent}e||(!function e(){var a=n.document,r=!!n.frames[t];if(!r)if(a.body){var s=a.createElement("iframe");s.style.cssText="display:none",s.name=t,a.body.appendChild(s)}else setTimeout(e,5);return!r}(),n.__tcfapi=function(){for(var e,t=arguments.length,n=new Array(t),r=0;r<t;r++)n[r]=arguments[r];if(!n.length)return a;if("setGdprApplies"===n[0])n.length>3&&2===parseInt(n[1],10)&&"boolean"==typeof n[3]&&(e=n[3],"function"==typeof n[2]&&n[2]("set",!0));else if("ping"===n[0]){var s={gdprApplies:e,cmpLoaded:!1,cmpStatus:"stub"};"function"==typeof n[2]&&n[2](s)}else a.push(n)},n.addEventListener("message",(function(e){var t="string"==typeof e.data,a={};try{a=t?JSON.parse(e.data):e.data}catch(e){}var n=a.__tcfapiCall;n&&window.__tcfapi(n.command,n.version,(function(a,r){var s={__tcfapiReturn:{returnValue:a,success:r,callId:n.callId}};t&&(s=JSON.stringify(s)),e&&e.source&&e.source.postMessage&&e.source.postMessage(s,"*")}),n.parameter)}),!1))};"undefined"!=typeof module?module.exports=e:e()}();
-        </script>
+        <script type="text/javascript" src="{{ asset('js/ads/iab_stub.js') }}"></script>
         <!-- END IAB STUB -->
 
-        <script type="text/javascript">
-            const configSFBXAppConsent = {
-                appKey: '95f76996-4a6c-40f8-8c38-d3598f597066',
-                privacyWidget: { // Remove this part if you don't wish to integrate the CMP privacy center button to your site
-                    color: 'clear', // Theme 'clear' or 'dark'
-                    position: 'bottomLeft', // Position 'bottomLeft' or 'bottomRight'
-                    text: 'Privacy center', // Text of the button
-                },
-                forceGDPRApplies: false,
-            }
-        </script>
+        <script type="text/javascript" src="{{ asset('js/ads/config_sfbxapp_app_consent.js') }}"></script>
+
         <script type="text/javascript" src="https://cdn.appconsent.io/loader-clear.js" defer async></script>
 
         <script async src="https://ads.sportslocalmedia.com/slm.prebid.footballko.js"></script>
@@ -58,6 +47,7 @@
             <link href="{{ asset('public/css/style.css') }}" rel="stylesheet">
             {{ encore_entry_link_tags('app') }}
         {% endblock %}
+        <link rel="stylesheet" href="{{ asset('css/ads/tags.css') }}">
 
         {% block javascripts %}
             <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
@@ -88,12 +78,10 @@
 
                     <div class="col-sm-4">
                         <div class="container mt-4">
-                            <!-- <div class="row mt-3 mb-2 border">
-                                <div style="width: 100%; height : 300px">
-                                    Publicité
-                                </div>
-                            </div> -->
+
                             <div class="row">
+                                {% include 'ad/right_top.html.twig' %}
+
                                 {% block secondary_content %}
                                 {% endblock %}
                             </div>
@@ -106,6 +94,12 @@
 
         {% endblock %}
         {% include 'fragments/footer.html.twig' %}
+
+        {% include 'ad/video_corner.html.twig' %}
+
+        {% include 'ad/sticky.html.twig' %}
+
+        {% include 'ad/interstitiel_mobile.html.twig' %}
     </body>
 
 </html>
