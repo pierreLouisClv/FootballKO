@@ -67,7 +67,6 @@ class Club
 
     #[ORM\ManyToMany(targetEntity: Article::class, mappedBy: 'clubs')]
     private Collection $linkedArticles;
-
     /**
      * @return Collection
      */
@@ -89,6 +88,7 @@ class Club
         $this->externalArticles = new ArrayCollection();
         $this->arrivals = new ArrayCollection();
         $this->linkedArticles = new ArrayCollection();
+        $this->summerContents = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -483,6 +483,7 @@ class Club
 
         return $this;
     }
+
 
 
 }
