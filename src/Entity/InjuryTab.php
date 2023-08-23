@@ -41,11 +41,11 @@ class InjuryTab
     #[ORM\Column(nullable: true)]
     private ?int $season = null;
 
-    public function __construct(int $day, Club $club)
+    public function __construct(int $day, Club $club, int $season)
     {
         $this->club = $club;
         $this->day = $day;
-        $this->season = $club->getActiveSeason();
+        $this->season = $season;
         $this->createdAt = (new \DateTimeImmutable())->modify('+2 hours');
         $this->updateAt = (new \DateTimeImmutable())->modify('+2 hours');
         $this->status = "not_updated";
