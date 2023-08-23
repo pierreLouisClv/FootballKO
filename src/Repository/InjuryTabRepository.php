@@ -67,7 +67,7 @@ class InjuryTabRepository extends ServiceEntityRepository
         foreach($championship->getClubsSortedByName() as $team){
             $injuryTab = $this->findOneBy(['day' => $day, 'club' => $team, 'season' => $championship->getSeason()]);
             if($injuryTab == null){
-                $this->createInjuryTab($day, $team);
+                $this->createInjuryTab($day, $team, $championship->getSeason());
             }
             $injuryTabs->add($this->getCurrentInjuryTab($team));
         }
@@ -78,7 +78,7 @@ class InjuryTabRepository extends ServiceEntityRepository
         $currentDay = $team->getChampionship()->getCurrentDay();
         $injuryTab = $this->findOneBy(['club' => $team, 'day' => $currentDay, 'season' => $team->getChampionship()->getSeason()]);
         if($injuryTab==null){
-            $injuryTab = $this->createInjuryTab($currentDay, $team);
+            $injuryTab = $this->createInjuryTab($currentDay, $team, $team->getChampionship()->getSeason());
             $this->em->persist($injuryTab);
             $this->em->flush();
         }
@@ -100,7 +100,7 @@ class InjuryTabRepository extends ServiceEntityRepository
         foreach ($clubs as $club) {
             $injuryTab = $this->findOneBy(['club' => $club, 'day' => $day, 'season' => $champ->getSeason()]);
             if ($injuryTab == null) {
-                $injuryTab = $this->createInjuryTab($day, $club);
+                $injuryTab = $this->createInjuryTab($day, $club, $season);
             }
             $injuryTabs->add($injuryTab);
         }
@@ -108,8 +108,8 @@ class InjuryTabRepository extends ServiceEntityRepository
     }
 
 
-    public function createInjuryTab(int $day, Club $team): InjuryTab{
-        $injuryTab = new InjuryTab($day, $team);
+    public function createInjuryTab(int $day, Club $team, int $season): InjuryTab{
+        $injuryTab = new InjuryTab($day, $team, $season);
             foreach($team->getPlayers() as $player) {
                 if ($player->getInjuryStatus() != "OK") {
                     $injuryTab->addAbsent($player);

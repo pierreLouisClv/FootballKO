@@ -27,7 +27,7 @@ class InjuryTabHandler{
 
         $injuryTab = $this->injuryTabRepository -> findOneBy(['club' => $team, 'day' => $day, 'season' => $team->getChampionship()->getSeason()]);
         if($injuryTab == null){
-            $injuryTab = $this->injuryTabRepository->createInjuryTab($day, $team);
+            $injuryTab = $this->injuryTabRepository->createInjuryTab($day, $team, $team->getChampionship()->getSeason());
             $this->em->persist($injuryTab);
             $this->em->flush();
         }
@@ -43,7 +43,7 @@ class InjuryTabHandler{
         $injuryTab = $this->injuryTabRepository -> findOneBy(['day' => $day, 'club' => $team, 'season' => $team -> getChampionship() -> getSeason()]);
 
         if($injuryTab == null){
-            $injuryTab = $this->injuryTabRepository->createInjuryTab($day, $team);
+            $injuryTab = $this->injuryTabRepository->createInjuryTab($day, $team, $team->getChampionship()->getSeason());
             $this->em->persist($injuryTab);
             $this->em->flush();
         }
@@ -64,11 +64,12 @@ class InjuryTabHandler{
         $this->em->flush();
     }
 
-    public function handleChamp(Championship $champ){
+    public function handleChamp(Championship $champ)
+    {
         foreach($champ->getClubs() as $club){
             $injuryTab = $this->injuryTabRepository->findOneBy(['club' => $club, 'day' => $champ->getCurrentDay(), 'season' => $champ->getSeason()]);
             if($injuryTab == null){
-                $injuryTab = $this->injuryTabRepository->createInjuryTab($champ->getCurrentDay(), $club);
+                $injuryTab = $this->injuryTabRepository->createInjuryTab($champ->getCurrentDay(), $club, $champ->getSeason());
                 $this->em->persist($injuryTab);
             }
             $this->em->flush();
