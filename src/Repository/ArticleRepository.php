@@ -45,7 +45,7 @@ class ArticleRepository extends ServiceEntityRepository
 
     public function getLastArticles(int $limit = 15, Championship $champ = null): array
     {
-        $date = (new \DateTime())->modify('+2 hours');
+        $date = (new \DateTime());
         $qb = $this->createQueryBuilder('a');
         if($champ != null){
             $qb->andWhere('a.mentioned_champ = :champ')
@@ -62,7 +62,7 @@ class ArticleRepository extends ServiceEntityRepository
 
     public function getSurgeryArticles(int $limit = 15): array
     {
-        $date = (new \DateTime())->modify('+2 hours');
+        $date = (new \DateTime());
         $qb = $this->createQueryBuilder('a');
         $categories = $this->categoryRepository->getSurgeryCategories();
         return $qb
@@ -78,7 +78,7 @@ class ArticleRepository extends ServiceEntityRepository
 
     public function getMercatoArticles(int $limit = 15):array
     {
-        $date = (new \DateTime())->modify('+2 hours');
+        $date = (new \DateTime());
         $qb = $this->createQueryBuilder('a');
         $category = $this->categoryRepository->findOneBy(['slug' => 'mercato']);
         return $qb

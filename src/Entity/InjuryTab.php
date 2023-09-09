@@ -46,8 +46,8 @@ class InjuryTab
         $this->club = $club;
         $this->day = $day;
         $this->season = $season;
-        $this->createdAt = (new \DateTimeImmutable())->modify('+2 hours');
-        $this->updateAt = (new \DateTimeImmutable())->modify('+2 hours');
+        $this->createdAt = (new \DateTimeImmutable());
+        $this->updateAt = (new \DateTimeImmutable());
         $this->status = "not_updated";
         $this->absent = new ArrayCollection();
     }

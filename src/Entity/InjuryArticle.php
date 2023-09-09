@@ -67,8 +67,8 @@ class InjuryArticle
 
     public function __construct(Championship $champ, $day)
     {
-        $this->setCreatedAt((new \DateTimeImmutable())->modify('+2 hours'));
-        $this->setUpdatedAt((new \DateTime())->modify('+2 hours'));
+        $this->setCreatedAt((new \DateTimeImmutable()));
+        $this->setUpdatedAt((new \DateTime()));
         $this->setChampionship($champ);
         $this->setSeason($champ->getSeason());
         $this->setDay($day);
