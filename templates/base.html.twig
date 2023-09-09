@@ -95,7 +95,11 @@
             </div>
         </div>
 
+            {% block aditionnal_content %}
+            {% endblock %}
+
         {% endblock %}
+
         {% include 'ad/banner_bottom.html.twig' %}
 
         {% include 'fragments/footer.html.twig' %}

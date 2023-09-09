@@ -20,13 +20,13 @@ class ClubHandler{
 
     public function updateClub(Club $team):void
     {
-        $team->setLastInjuryUpdate((new \DateTime())->modify('+2 hours'));
+        $team->setLastInjuryUpdate((new \DateTime()));
         $this->em->flush();
     }
 
     public function updateTeamStatus(Club $team, string $status):void{
         $team->setStatus($status);
-        $team->setLastInjuryUpdate((new \DateTime())->modify('+2 hours'));
+        $team->setLastInjuryUpdate((new \DateTime()));
         $this->em->flush();
     }
     public function reinisializeUpdates(Championship $championship):void

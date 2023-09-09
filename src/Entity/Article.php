@@ -71,7 +71,7 @@ class Article implements ItemInterface
 
     public function __construct()
     {
-        $this->createdAt = (new \DateTimeImmutable())->modify('+2 hours');
+        $this->createdAt = (new \DateTimeImmutable());
         $this->mentionedPlayers = new ArrayCollection();
         $this->clubs = new ArrayCollection();
         $this->players = new ArrayCollection();
@@ -199,7 +199,7 @@ class Article implements ItemInterface
     }
 
     public function getDateInterval() :string{
-        $dateInterval = $this->publishedAt->diff((new \DateTime())->modify('+2 hours'));
+        $dateInterval = $this->publishedAt->diff((new \DateTime()));
 
         if ($dateInterval->days > 0) {
             return "il y a ".$dateInterval->format('%a jours');

@@ -33,7 +33,7 @@ class InjuryArticleController extends AbstractController
         $day = $champ->getCurrentDay();
         $season = $champ->getSeason();
         $injuryArticle = $this->injuryArticleRepository->findOneBy(['championship'=>$champ, 'day'=>$day, 'season' => $season]);
-        $now = (new \DateTime())->modify('+2 hours');
+        $now = (new \DateTime());
         if($day == 0)
         {
             $day = 38;
