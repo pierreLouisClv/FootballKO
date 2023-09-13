@@ -58,13 +58,13 @@ class UpdatePlayerType extends AbstractType
             ->add('injury_status', ChoiceType::class, [
                 'required' => false,
         'choices' => [
-            'Disponible' => "OK",
-            'Incertain' => "uncertain",
             'Blessé' => "injured",
-            'Malade' => "sick",
+            'Incertain' => "uncertain",
+            'Malade' => 'sick',
             'Suspendu' => "suspended",
             "Ecarté" => 'exclude',
-            "Hors-Groupe" => 'out_of_group'
+            "Hors-Groupe" => 'out_of_group',
+            'Disponible' => "OK"
         ],
     ])
             ->add('day_return', ChoiceType::class, [
