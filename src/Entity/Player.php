@@ -70,7 +70,7 @@ class Player
         if($club!=null){
             $this->club = $club;
         }
-        $this->injury_status = "OK";
+        $this->injury_status = "injured";
         $this->mentions = new ArrayCollection();
         $this->injuryTabs = new ArrayCollection();
         $this->incertainTabs = new ArrayCollection();

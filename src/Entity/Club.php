@@ -67,6 +67,12 @@ class Club
 
     #[ORM\ManyToMany(targetEntity: Article::class, mappedBy: 'clubs')]
     private Collection $linkedArticles;
+
+    #[ORM\Column]
+    private ?bool $hasLink = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $link = null;
     /**
      * @return Collection
      */
@@ -480,6 +486,30 @@ class Club
         if ($this->linkedArticles->removeElement($linkedArticle)) {
             $linkedArticle->removeClub($this);
         }
+
+        return $this;
+    }
+
+    public function isHasLink(): ?bool
+    {
+        return $this->hasLink;
+    }
+
+    public function setHasLink(bool $hasLink): self
+    {
+        $this->hasLink = $hasLink;
+
+        return $this;
+    }
+
+    public function getLink(): ?string
+    {
+        return $this->link;
+    }
+
+    public function setLink(?string $link): self
+    {
+        $this->link = $link;
 
         return $this;
     }

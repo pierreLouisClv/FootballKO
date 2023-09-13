@@ -33,13 +33,13 @@ class AddPlayerType extends AbstractType
             ->add('injury_status', ChoiceType::class, [
                 'required' => false,
                 'choices' => [
-                    'Disponible' => "OK",
-                    'Incertain' => "uncertain",
                     'Blessé' => "injured",
+                    'Incertain' => "uncertain",
                     'Malade' => 'sick',
                     'Suspendu' => "suspended",
                     "Ecarté" => 'exclude',
-                    "Hors-Groupe" => 'out_of_group'
+                    "Hors-Groupe" => 'out_of_group',
+                    'Disponible' => "OK"
                 ],
             ])
             ->add('downtime', DateIntervalType::class, [
