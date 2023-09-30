@@ -1,6 +1,6 @@
-#### Akcelo (18/09/2023) ####
+#### Akcelo (25/09/2023) ####
 
-OWNERDOMAIN=lepetitlillois.com
+OWNERDOMAIN=footballko.com
 MANAGERDOMAIN=spacefoot.com
 
 33across.com,0010b00002cGp2AAAS,RESELLER,bbea06d9c4d2853c
@@ -444,7 +444,7 @@ sovrn.com,264143,RESELLER,fafdf38b16bf6b2b
 sovrn.com,267974,RESELLER,fafdf38b16bf6b2b
 sovrn.com,397546,RESELLER,fafdf38b16bf6b2b
 sovrn.com,400766,RESELLER,fafdf38b16bf6b2b
-spacefoot.com,4ba6f1d0-20b3-4d9d-ab8b-6c24ebafedac,DIRECT
+spacefoot.com,a717200d-97fd-4ceb-bb16-4f015a601bda,DIRECT
 spotim.market,sp_AYL2022,RESELLER,077e5f709d15bdbb
 spotx.tv,151986,RESELLER,7842df1d2fe2db34
 spotx.tv,178357,RESELLER,7842df1d2fe2db34
