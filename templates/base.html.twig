@@ -61,17 +61,17 @@
             {{ encore_entry_script_tags('app') }}
         {% endblock %}
     </head>
-    <body>
+    <body style="overflow:auto">
         {% block header %}
             {% include asset('fragments/header.html.twig') %}
             {% include asset('ad/banner_top.html.twig') %}
         {% endblock %}
         {% block body %}
 
-        <div class="container-md bg-light mt-3 mp-3">
+        <div class="container-md bg-light mt-3 mp-3" >
             <div class="row">
 
-                <div class="col-sm-8 pt-3">
+                <div class="col-sm-8 pt-3" >
                     <div class="mx-auto">
 
                     {% block main_content %}
