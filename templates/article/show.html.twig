@@ -17,23 +17,25 @@
             </div>
         </div>
     </div>
-        <div class="row ml-1 mr-1" >
-                <div class="">
-                    <div class="pb-2 h2" style="font-family: 'Anton', sans-serif; font-weight: 800; letter-spacing: -3px;line-height: 1em;">
-                        {{ article.title }}
-                    </div>
-
-                    {% block date_info %}
-                        <div class="text-secondary mb-2">Publié le {{ article.publishedAtToString() }}</div>
-                    {% endblock %}
-                    <img class="mb-3" style="max-width:90%"
-                         src="/uploads/{{ article.media.filename }}" alt="{{ article.media.altText }}" />
-                    {% include 'ad/article.html.twig' %}
-
-                    <div style="font-family: Rubik, sans-serif">
-                        {{ article.content|raw }}</div>
+    <div class="row ml-1 mr-1">
+        <div class="">
+            <div class="d-flex flex-column">
+                <div class="pb-2 h2" style="font-family: 'Anton', sans-serif; font-weight: 800; letter-spacing: -3px;line-height: 1em;">
+                    {{ article.title }}
                 </div>
+
+                {% block date_info %}
+                    <div class="text-secondary mb-2">Publié le {{ article.publishedAtToString() }}</div>
+                {% endblock %}
+                <img class="mb-3" style="max-width:90%"
+                     src="/uploads/{{ article.media.filename }}" alt="{{ article.media.altText }}" />
+                {% include 'ad/article.html.twig' %}
+
+                <div style="font-family: Rubik, sans-serif">
+                    {{ article.content|raw }}</div>
+            </div>
         </div>
+    </div>
     <div class="row p-0">
         <div class="col d-flex flex-column">
             {% block tab %}{% endblock %}
