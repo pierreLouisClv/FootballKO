@@ -14,7 +14,8 @@ class InjuryTabHandler{
 
     public function __construct(public EntityManagerInterface $em,
                                 public InjuryTabRepository $injuryTabRepository,
-                                public ClubHandler $clubHandler)
+                                public ClubHandler $clubHandler,
+                                public InjuryArticleHandler $injuryArticleHandler)
     {
     }
 
@@ -51,15 +52,15 @@ class InjuryTabHandler{
         if($player->getInjuryStatus() == 'OK'){
             if($injuryTab->getAbsent()->contains($player)){
                 $injuryTab->removeAbsent($player);
-                $this->updateInjuryTab($team);
             }
         }
         else{
             if(!$injuryTab->getAbsent()->contains($player)){
                 $injuryTab->addAbsent($player);
-                $this->updateInjuryTab($team);
             }
         }
+        $this->updateInjuryTab($team);
+        $this->injuryArticleHandler->updateArticle($team->getChampionship());
         $this->clubHandler->updateClub($team);
         $this->em->flush();
     }
