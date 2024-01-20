@@ -36,6 +36,9 @@ class Media
     #[ORM\ManyToOne(inversedBy: 'medias')]
     private ?Club $associatedClub = null;
 
+    #[ORM\Column]
+    private bool $isArchived = false;
+
     public function __construct()
     {
         $this->associatedArticles = new ArrayCollection();
@@ -189,4 +192,22 @@ class Media
 
         return $this;
     }
+
+    /**
+     * @return bool
+     */
+    public function isArchived(): bool
+    {
+        return $this->isArchived;
+    }
+
+    /**
+     * @param bool $isArchived
+     */
+    public function setIsArchived(bool $isArchived): void
+    {
+        $this->isArchived = $isArchived;
+    }
+
+
 }

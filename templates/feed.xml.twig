@@ -4,24 +4,9 @@
     <channel>
         <title>FootballKO</title>
         <link>https://footballko.com</link>
-        <description>FootballKO recense les joueurs absents dans quatre grands championnats d'Europe, Ligue 1, Premier League, Liga et Premier League.</description>
+        <description>FootballKO recense les joueurs absents dans cinq grands championnats d'Europe, Ligue 1, Premier League, Liga, Serie A et Bundesliga.</description>
         <language>fr-FR</language>
         <atom:link href="https://footballko.com/feed" rel="self" type="application/rss+xml" />
-
-        {% for article in mercato_articles %}
-
-            <item>
-                <title>{{ article.title }}</title>
-                <link>https://footballko.com/article/{{ article.getSlug() }}</link>
-                <pubDate>{{ article.publishedAt|date('D, d M Y H:i:s O') }}</pubDate>
-                <enclosure url="https://footballko.com/uploads/{{ article.media.filename }}"
-                           type="image/jpg"
-                            length="{{ article.media.getSize() }}"/>
-                <category>mercato</category>
-                <description>{{ article.introduction }}</description>
-                <guid isPermaLink="false">{{ article.getSlug() }}</guid>
-            </item>
-        {% endfor %}
 
         {% for article in injury_articles %}
             <item>

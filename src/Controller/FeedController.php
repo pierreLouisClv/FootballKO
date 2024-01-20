@@ -30,26 +30,44 @@ class FeedController extends AbstractController {
         /*$champs = $this->championshipRepository->findActiveChamps();*/
 
         $injuryArticles = $this->injuryArticleRepository->getLastInjuryArticles($champs);
-        $category = $this->categoryRepository->findOneBy(['slug' => 'mercato']);
-        $mercatoArticles = $this->articleRepository->getMercatoTabArticles($activeChamps, $category);
-        $removedArticlesSlug = new ArrayCollection();
 
         $lastArticles = new ArrayCollection($this->articleRepository->getLastArticles());
         $articles = new ArrayCollection();
 
         foreach ($lastArticles as $article)
         {
-            if (!($mercatoArticles->contains($article)))
-            {
-                $articles->add($article);
-            }
+            $articles->add($article);
 
         }
 
 
         return $this->render('feed.xml.twig', [
             'injury_articles' => $injuryArticles,
-            'mercato_articles' => $mercatoArticles,
+            'last_articles' => $articles
+        ]);
+    }
+
+    #[Route('/sitemap', name:'app_sitemap')]
+    public function siteMap():Response
+    {
+        $champs = $this->championshipRepository->findChampsFromSeason(2023);
+        $activeChamps = $this->championshipRepository->findActiveChamps();
+        /*$champs = $this->championshipRepository->findActiveChamps();*/
+
+        $injuryArticles = $this->injuryArticleRepository->getLastInjuryArticles($champs);
+
+        $lastArticles = new ArrayCollection($this->articleRepository->getLastArticles());
+        $articles = new ArrayCollection();
+
+        foreach ($lastArticles as $article)
+        {
+            $articles->add($article);
+
+        }
+
+
+        return $this->render('sitemap.xml.twig', [
+            'injury_articles' => $injuryArticles,
             'last_articles' => $articles
         ]);
     }

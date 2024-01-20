@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+    {% for article in injury_articles %}
+    <url>
+        <loc>
+            https://footballko.com/injury/article/{{ article.getChampionship().getSlug() }}/J{{ article.day }}
+        </loc>
+        <lastmod>
+            {{ article.publishedAt|date('D, d M Y H:i:s O') }}
+        </lastmod>
+        <image>
+            <loc>
+                https://footballko.com/uploads/{{ article.media.filename }}
+            </loc>
+            <title>
+                {{ article.title }}
+            </title>
+        </image>
+    </url>
+    {% endfor %}
+
+    {% for article in last_articles %}
+        <url>
+            <loc>
+                https://footballko.com/article/{{ article.getSlug() }}
+            </loc>
+            <lastmod>
+                {{ article.publishedAt|date('D, d M Y H:i:s O') }}
+            </lastmod>
+            <image>
+                <loc>
+                    https://footballko.com/uploads/{{ article.media.filename }}
+                </loc>
+                <title>
+                    {{ article.title }}
+                </title>
+            </image>
+        </url>
+    {% endfor %}
+</urlset>

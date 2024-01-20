@@ -25,6 +25,7 @@ class ArticleType extends AbstractType
     {
         $isCommonArticle = true;
         $championship = null;
+        $isMediaArchived = false;
         if($options['data']->getMentionedChamp() != null)
         {
             $isCommonArticle = false;
@@ -81,10 +82,12 @@ class ArticleType extends AbstractType
                 $label .= $media->getName();
                 return trim($label);
             },
-            'query_builder' => function (MediaRepository $repo) use ($championship){
+            'query_builder' => function (MediaRepository $repo) use ($championship, $isMediaArchived){
                 return $repo->createQueryBuilder('m')
                     ->andWhere('m.associatedChampionship = :championship')
                     ->setParameter(':championship', $championship)
+                    ->andWhere('m.isArchived = :boolean')
+                    ->setParameter(':boolean', $isMediaArchived)
                     ->orderBy('m.name', 'ASC');
             },
             'placeholder' => '-- Sélectionner un média --'
