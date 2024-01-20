@@ -45,6 +45,7 @@ class CategoryRepository extends ServiceEntityRepository
         $cat = new ArrayCollection();
         $cat->add($this->findOneBy(['slug' => "absents"]));
         $cat->add($this->findOneBy(['slug' => "groupe"]));
+        $cat->add($this->findOneBy(['slug' => "recapitulatif"]));
         $cat->add($this->findOneBy(['slug' => "conference-de-presse"]));
         $cat->add($this->findOneBy(['slug' => "commission-de-discipline"]));
         return $cat->toArray();
