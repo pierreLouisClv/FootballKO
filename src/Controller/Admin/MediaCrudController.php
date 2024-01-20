@@ -7,6 +7,7 @@ use App\Repository\ChampionshipRepository;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use SebastianBergmann\CodeCoverage\Report\Text;
@@ -52,6 +53,10 @@ class MediaCrudController extends AbstractCrudController
             }
             ]);
 
+        yield BooleanField::new('isArchived')->setFormTypeOptions(
+            ['label' => 'Archivé',
+                'required' => false
+            ]);
     }
 
 }

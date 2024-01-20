@@ -42,6 +42,8 @@ class InjuryArticleType extends AbstractType
                     return $repo->createQueryBuilder('m')
                         ->andWhere('m.associatedChampionship = :championship')
                         ->setParameter(':championship', $championship)
+                        ->andWhere('m.isArchived = :boolean')
+                        ->setParameter(':boolean', false)
                         ->orderBy('m.name', 'ASC');
                 },
                 'placeholder' => '-- Sélectionner un média --'
