@@ -11,7 +11,7 @@
         {% for article in injury_articles %}
             <item>
                 <title>{{ article.title }}</title>
-                <link>https://footballko.com/injury/article/{{ article.getChampionship().getSlug() }}/J{{ article.day }}</link>
+                <link>https://footballko.com/injury/article/{{ article.getChampionship().getSlug() }}/{{ article.season }}/J{{ article.day }}</link>
                 <pubDate>{{ article.publishedAt|date('D, d M Y H:i:s O') }}</pubDate>
                 <enclosure url="https://footballko.com/uploads/{{ article.media.filename }}"
                            type="image/jpg"
