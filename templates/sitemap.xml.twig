@@ -4,7 +4,7 @@
     {% for article in injury_articles %}
     <url>
         <loc>
-            https://footballko.com/injury/article/{{ article.getChampionship().getSlug() }}/J{{ article.day }}
+            https://footballko.com/injury/article/{{ article.getChampionship().getSlug() }}/{{ article.season }}/J{{ article.day }}
         </loc>
         <lastmod>
             {{ article.publishedAt|date('D, d M Y H:i:s O') }}
